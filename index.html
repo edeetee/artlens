@@ -3,10 +3,11 @@
 	client supports video/camera, but for the sake of illustrating the 
 	elements involved, they are created with markup (not JavaScript)
 -->
-<script src="jsfeat.js"></script>
-<body>
-<video id="video" width="640" height="480" style="display:none" autoplay></video>
+<body style="margin: 0px">
+<video id="video" width="640" height="480" style="margin-bottom: -480px" autoplay></video>
 <canvas id="canvas" width="640" height="480"></canvas>
+</br>
+<h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" id="title">Loading...</h1>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -17,45 +18,41 @@ window.onload = function() {
     // lets do some fun
     var video = document.getElementById('video');
     var canvas = document.getElementById('canvas');
-    canvas.width = 640;
-    canvas.height = 480;
+    var title = document.getElementById('title');
+
     var ctx = canvas.getContext('2d');
     
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
 	    // Not adding `{ audio: true }` since we only want video now
 	    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
 	        video.src = window.URL.createObjectURL(stream);
-            requestAnimationFrame(draw);
         });
 
     function draw(){
-        requestAnimationFrame(draw);
-        if (video.readyState === video.HAVE_ENOUGH_DATA){
-            ctx.drawImage(video, 0, 0, 640, 480);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            if(boxData){
-                ctx.strokeStyle = "rgb(0,255,0)";
-                ctx.beginPath();
-                ctx.moveTo(boxData[0].x,boxData[0].y);
-                ctx.lineTo(boxData[1].x,boxData[1].y);
-                ctx.lineTo(boxData[2].x,boxData[2].y);
-                ctx.lineTo(boxData[3].x,boxData[3].y);
-                ctx.lineTo(boxData[0].x,boxData[0].y);
-                ctx.lineWidth=4;
+        if(boxData){
+            ctx.strokeStyle = "white";
+            ctx.beginPath();
+            ctx.moveTo(boxData[0].x,boxData[0].y);
+            ctx.lineTo(boxData[1].x,boxData[1].y);
+            ctx.lineTo(boxData[2].x,boxData[2].y);
+            ctx.lineTo(boxData[3].x,boxData[3].y);
+            ctx.lineTo(boxData[0].x,boxData[0].y);
+            ctx.lineWidth=4;
+            ctx.stroke();
+        }
+
+        if(pointsData){
+            pointsData.forEach(function(val){
+                if(val.correct) {
+                    ctx.fillStyle = "rgb(0,255,0)";
+                } else {
+                    ctx.fillStyle = "rgb(255,0,0)";
+                }
+                ctx.fillRect(val.x-1,val.y-1,3,3);
                 ctx.stroke();
-            }
-
-            if(pointsData){
-                pointsData.forEach(function(val){
-                    if(val.correct) {
-                        ctx.fillStyle = "rgb(0,255,0)";
-                    } else {
-                        ctx.fillStyle = "rgb(255,0,0)";
-                    }
-                    ctx.fillRect(val.x-1,val.y-1,3,3);
-                    ctx.stroke();
-                })
-            }
+            })
         }
     }
 
@@ -63,16 +60,23 @@ window.onload = function() {
     var pointsData;
 
     socket.on('requestImage', function(){
+        ctx.drawImage(video, 0, 0, 640, 480);
         var imageData = ctx.getImageData(0, 0, 640, 480);
+        draw();
         socket.emit('processImage', imageData.data);
     });
 
-    socket.on('boundingBox', function(data){
-        boxData = data;
-    })
-
-    socket.on('points', function(data){
-        pointsData = data;
+    socket.on('processed', function(data){
+        if(data){
+            boxData = data.box;
+            pointsData = data.points;
+            title.innerText = data.title;
+        } else{
+            boxData = null;
+            pointsData = null;
+            title.innerText = "No match found";
+        }
+        draw();
     })
     
     window.onunload = function() {

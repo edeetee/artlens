@@ -17,8 +17,8 @@ var num_train_levels = 4;
 var blur_size = 5;
 var match_threshold = 50;
         
-jsfeat.yape06.laplacian_threshold = 30
-jsfeat.yape06.min_eigen_value_threshold = 5;
+jsfeat.yape06.laplacian_threshold = 30;
+jsfeat.yape06.min_eigen_value_threshold = 25;
 
 jsfeat.fast_corners.set_threshold(10);
 
@@ -76,7 +76,7 @@ var train_pattern = function(pattern_corners, pattern_descriptors) {
             lev_corners[i].x *= 1./sc;
             lev_corners[i].y *= 1./sc;
         }
-        console.log("train " + lev_img.cols + "x" + lev_img.rows + " points: " + corners_num);
+        //console.log("train " + lev_img.cols + "x" + lev_img.rows + " points: " + corners_num);
         sc /= sc_inc;
     }
 };
@@ -96,6 +96,7 @@ var match_t = (function () {
 })();
 
 var images = ["flask.png", "box.png", "clit.png", "moss.png"];
+var titles = ["Flask", "Flask Box", "Nick Clitheroe's Biomorph", "Mossy Beech Tree"]
 var patterns_corners = [];
 var patterns_descriptors = [];
 
@@ -132,24 +133,21 @@ function demo_app() {
     })
 }
 
-var best_matchp = 0;
-var best_matchi = null;
-var best_matches_render;
-var best_box_render;
-
 //imageData = ctx.getImageData(0, 0, 640, 480);
 function findMatch(data) {
     jsfeat.imgproc.grayscale(data, 640, 480, img_u8);
     jsfeat.imgproc.gaussian_blur(img_u8, img_u8_smooth, blur_size);
 
+    //new image description
     num_corners = detect_keypoints(img_u8_smooth, screen_corners, 500);
     jsfeat.orb.describe(img_u8_smooth, screen_corners, num_corners, screen_descriptors);
     
-    // render result back to canvas
-    var data_u32 = new Uint32Array(data.buffer);
-    render_corners(screen_corners, num_corners, data_u32, 640);
-    // render pattern and matches
+    var best_matchp = 0.05;
+    var best_matchi = null;
+    var best_matches_render;
+    var best_box_render;
     
+    //matching
     for(var i = 0; i<images.length; i++){
         var num_matches = 0;
         var good_matches = 0;
@@ -157,7 +155,8 @@ function findMatch(data) {
         num_matches = match_pattern(patterns_descriptors[i]);
         good_matches = find_transform(matches, num_matches, patterns_corners[i]);
 
-        var matchp = good_matches;
+        console.log(good_matches + " " + num_matches + " " + num_corners);
+        var matchp = good_matches/num_corners;
         if(best_matchp < matchp){
             best_matchp = matchp;
             best_matchi = i;
@@ -168,21 +167,19 @@ function findMatch(data) {
 
     //found matches
     if(best_matchi) {
-        console.log('best match: ' + images[best_matchi] + " at " + best_matchp + " matches");
-        // render_matches(ctx, matches, num_matches);
-        // if(good_matches > 8)
-        //     render_pattern_shape(ctx);
-        return {points: best_matches_render, box: best_box_render};
+        var text = "'" + titles[best_matchi] + "' matched at " + Math.round(best_matchp*100) + "%";
+        console.log(text);
+        return {points: best_matches_render, box: best_box_render, title: text};
     } else
         console.log('no match');
-
-    return {};
 }
+
+
 // UTILITIES
 function detect_keypoints(img, corners, max_allowed) {
     // detect features
-    //var count = jsfeat.yape06.detect(img, corners, 17);
-    var count = jsfeat.fast_corners.detect(img, corners, 5);
+    var count = jsfeat.yape06.detect(img, corners, 17);
+    //var count = jsfeat.fast_corners.detect(img, corners, 5);
     // sort by score and reduce the count if needed
     if(count > max_allowed) {
         jsfeat.math.qsort(corners, 0, count-1, function(a,b){return (b.score<a.score);});

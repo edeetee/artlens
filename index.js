@@ -22,16 +22,11 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
-app.use(express.static('scripts'));
-
 io.on('connection', function(socket){
   console.log('a user connected');
   
   socket.on('processImage', function(imageData){
-    var info = wrax.match(imageData);
-    socket.emit('points', info.points);
-    socket.emit('boundingBox', info.box);
-
+    socket.emit('processed', wrax.match(imageData));
     socket.emit('requestImage');
   })
 
