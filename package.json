@@ -1,10 +1,12 @@
 {
-  "name": "socket-chat-example",
+  "name": "artlens",
   "version": "0.0.1",
-  "description": "my first socket.io app",
+  "description": "artlens app",
   "dependencies": {
     "express": "^4.15.2",
-    "img-ssim": "^1.0.2",
-    "socket.io": "^2.0.1"
+    "socket.io": "^2.0.1",
+    "jsfeat":"^0.0.8",
+    "auto-sni": "",
+    "pngjs": ""
   }
 }
