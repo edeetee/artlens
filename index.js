@@ -1,12 +1,12 @@
 //WRITE YOUR SSL IP HOST HERE
-var address = "130.195.44.97"
+var address = "192.168.1.7"
 
 var httpPort = 8080;
 var httpsPort = 8081;
 
 var app = require('express')();
 
-var ssl = false;
+var ssl = true;
 
 if(ssl){
   var server = require("auto-sni")({
