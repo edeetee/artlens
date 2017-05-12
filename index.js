@@ -1,17 +1,19 @@
 
 //WRITE YOUR IP HOST HERE
-var address = "192.168.1.7";
+//var address = "192.168.1.7";
+var address = "127.0.0.1";
 
 var express = require('express');
 var app = express();
 
-var createServer = require("auto-sni");
-var server = createServer({
-    email: "edeetee@gmail.com",
-    agreeTos: true,
-    debug: true,
-    domains: [address]
-}, app);
+var server = app.listen(3000);
+// var createServer = require("auto-sni");
+// var server = createServer({
+//     email: "edeetee@gmail.com",
+//     agreeTos: true,
+//     debug: true,
+//     domains: [address]
+// }, app);
 
 var io = require('socket.io').listen(server);
 

@@ -57,7 +57,7 @@ var train_pattern = function(pattern_corners, pattern_descriptors) {
     jsfeat.imgproc.gaussian_blur(lev0_img, lev_img, blur_size); // this is more robust
     corners_num = detect_keypoints(lev_img, lev_corners, max_per_level);
     jsfeat.orb.describe(lev_img, lev_corners, corners_num, lev_descr);
-    console.log("train " + lev_img.cols + "x" + lev_img.rows + " points: " + corners_num);
+    //console.log("train " + lev_img.cols + "x" + lev_img.rows + " points: " + corners_num);
     sc /= sc_inc;
     // lets do multiple scale levels
     // we can use Canvas context draw method for faster resize
@@ -122,7 +122,7 @@ function demo_app() {
         fs.createReadStream(img)
         .pipe(new PNG())
         .on('parsed', function() {
-            console.log('parsing ' + i + ' ' + img);
+            console.log('parsing ' + img + ' [' + i + ']');
             var pattern_corners = [];
             var pattern_descriptors = [];
             jsfeat.imgproc.grayscale(this.data, 640, 480, img_u8);
@@ -142,7 +142,8 @@ function findMatch(data) {
     num_corners = detect_keypoints(img_u8_smooth, screen_corners, 500);
     jsfeat.orb.describe(img_u8_smooth, screen_corners, num_corners, screen_descriptors);
     
-    var best_matchp = 0.05;
+    //min %
+    var best_matchp = 0;
     var best_matchi = null;
     var best_matches_render;
     var best_box_render;
@@ -155,8 +156,9 @@ function findMatch(data) {
         num_matches = match_pattern(patterns_descriptors[i]);
         good_matches = find_transform(matches, num_matches, patterns_corners[i]);
 
-        console.log(good_matches + " " + num_matches + " " + num_corners);
         var matchp = good_matches/num_corners;
+        if(best_matchp)
+            console.log(images[i] + ":\t" + good_matches + "\t" + num_matches + '\t' + Math.round(matchp*100) + "%");
         if(best_matchp < matchp){
             best_matchp = matchp;
             best_matchi = i;
@@ -166,12 +168,12 @@ function findMatch(data) {
     }
 
     //found matches
-    if(best_matchi) {
+    if(0.03 < best_matchp) {
         var text = "'" + titles[best_matchi] + "' matched at " + Math.round(best_matchp*100) + "%";
         console.log(text);
         return {points: best_matches_render, box: best_box_render, title: text};
     } else
-        console.log('no match');
+        console.log('no match\n');
 }
 
 
