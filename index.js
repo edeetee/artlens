@@ -1,19 +1,26 @@
+//WRITE YOUR SSL IP HOST HERE
+var address = "130.195.44.97"
 
-//WRITE YOUR IP HOST HERE
-//var address = "192.168.1.7";
-var address = "127.0.0.1";
+var httpPort = 8080;
+var httpsPort = 8081;
 
-var express = require('express');
-var app = express();
+var app = require('express')();
 
-var server = app.listen(3000);
-// var createServer = require("auto-sni");
-// var server = createServer({
-//     email: "edeetee@gmail.com",
-//     agreeTos: true,
-//     debug: true,
-//     domains: [address]
-// }, app);
+var ssl = false;
+
+if(ssl){
+  var server = require("auto-sni")({
+      email: "edeetee@gmail.com",
+      agreeTos: true,
+      debug: true,
+      domains: [address],
+      ports: {
+        http: httpPort,
+        https: httpsPort
+      }
+  }, app);
+} else
+  var server = app.listen(httpPort);
 
 var io = require('socket.io').listen(server);
 
@@ -38,5 +45,8 @@ io.on('connection', function(socket){
 });
 
 server.once('listening', function(){
-    console.log("listening on " + address);
+  if(ssl)
+    console.log("listening on " + address + ' on http:' + httpPort + ' and https:' + httpsPort)
+  else
+    console.log('listening on localhost on http:' + httpPort)
 })
