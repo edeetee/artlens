@@ -95,10 +95,9 @@ var match_t = (function () {
     return match_t;
 })();
 
-var images = ["flask.png", "box.png", "clit.png", "moss.png"];
-var titles = ["Flask", "Flask Box", "Nick Clitheroe's Biomorph", "Mossy Beech Tree"]
 var patterns_corners = [];
 var patterns_descriptors = [];
+var titles = [];
 
 //init
 function demo_app() {
@@ -117,19 +116,22 @@ function demo_app() {
     // transform matrix
     homo3x3 = new jsfeat.matrix_t(3,3,jsfeat.F32C1_t);
     match_mask = new jsfeat.matrix_t(500,1,jsfeat.U8C1_t);
-
-    images.forEach(function(img, i){
-        fs.createReadStream(img)
-        .pipe(new PNG())
-        .on('parsed', function() {
-            console.log('parsing ' + img + ' [' + i + ']');
-            var pattern_corners = [];
-            var pattern_descriptors = [];
-            jsfeat.imgproc.grayscale(this.data, 640, 480, img_u8);
-            train_pattern(pattern_corners, pattern_descriptors);
-            patterns_corners[i] = pattern_corners;
-            patterns_descriptors[i] = pattern_descriptors;
-        });
+    fs.readdir('images', function(err, files){
+        files.forEach(function(file, i){
+            titles[i] = file.slice(0, -4)
+            var img = "images/" + file;
+            fs.createReadStream(img)
+            .pipe(new PNG())
+            .on('parsed', function() {
+                console.log('parsing ' + file + ' [' + i + ']');
+                var pattern_corners = [];
+                var pattern_descriptors = [];
+                jsfeat.imgproc.grayscale(this.data, 640, 480, img_u8);
+                train_pattern(pattern_corners, pattern_descriptors);
+                patterns_corners[i] = pattern_corners;
+                patterns_descriptors[i] = pattern_descriptors;
+            });
+        })
     })
 }
 
@@ -149,7 +151,7 @@ function findMatch(data) {
     var best_box_render;
     
     //matching
-    for(var i = 0; i<images.length; i++){
+    for(var i = 0; i<titles.length; i++){
         var num_matches = 0;
         var good_matches = 0;
 
@@ -158,7 +160,7 @@ function findMatch(data) {
 
         var matchp = good_matches/num_corners;
         if(best_matchp)
-            console.log(images[i] + ":\t" + good_matches + "\t" + num_matches + '\t' + Math.round(matchp*100) + "%");
+            console.log(good_matches + " " + num_matches + '\t' + Math.round(matchp*100) + "%\t" + titles[i]);
         if(best_matchp < matchp){
             best_matchp = matchp;
             best_matchi = i;
