@@ -6,7 +6,7 @@ var httpsPort = 8081;
 
 var app = require('express')();
 
-var ssl = true;
+var ssl = false;
 
 if(ssl){
   var server = require("auto-sni")({
@@ -33,7 +33,7 @@ app.get('/', function(req, res){
 
 io.on('connection', function(socket){
   console.log('a user connected');
-  
+
   socket.on('processImage', function(imageData){
     socket.emit('processed', wrax.match(imageData));
     socket.emit('requestImage');
