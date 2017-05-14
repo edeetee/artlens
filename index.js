@@ -2,11 +2,17 @@
 var address = "192.168.1.7"
 
 var httpPort = 8080;
-var httpsPort = 8081;
+var httpsPort = 443;
 
-var app = require('express')();
+var express = require('express');
+var app = express();
 
 var ssl = false;
+
+var includedFolders = [
+	'css',
+	'js'
+]
 
 if(ssl){
   var server = require("auto-sni")({
@@ -31,9 +37,13 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
 
+includedFolders.forEach(function(folder){
+	app.use('/'+folder, express.static(folder));
+})
+
 io.on('connection', function(socket){
   console.log('a user connected');
-
+  
   socket.on('processImage', function(imageData){
     socket.emit('processed', wrax.match(imageData));
     socket.emit('requestImage');
