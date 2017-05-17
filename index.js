@@ -1,14 +1,19 @@
 //WRITE YOUR SSL IP HOST HERE
 //var address = "edeetee.ddns.net"
 var address = "0.0.0.0"
-
 var httpPort = 80;
 var httpsPort = 443;
 
 var path = require('path');
-var app = require('express')();
+var express = require('express');
+var app = express();
 
-var ssl = true;
+var ssl = false;
+
+var includedFolders = [
+	'css',
+	'js'
+]
 
 if(ssl){
   var server = require("auto-sni")({
@@ -33,6 +38,10 @@ wrax.init();
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
+
+includedFolders.forEach(function(folder){
+	app.use('/'+folder, express.static(folder));
+})
 
 io.on('connection', function(socket){
   console.log('a user connected');
