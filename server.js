@@ -3,7 +3,6 @@
 var address = "artlens.herokuapp.com"
 var port = process.env.PORT||80;
 
-
 var path = require('path');
 var express = require('express');
 
@@ -43,8 +42,5 @@ io.on('connection', function(socket){
 });
 
 server.once('listening', function(){
-  if(ssl)
-    console.log("listening on " + address + ' on http:' + httpPort + ' and https:' + httpsPort)
-  else
-    console.log('listening on localhost on http:' + httpPort)
+  console.log('listening on port ' + httpPort)
 })
