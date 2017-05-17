@@ -8,5 +8,8 @@
     "jsfeat":"^0.0.8",
     "auto-sni": "",
     "pngjs": ""
+  },
+  "scripts": {
+    "start": "node server.js"
   }
 }
