@@ -60,6 +60,7 @@ window.onload = function() {
 
     //server finished processing
     socket.on('processed', function(data){
+        console.log('received data: ', data);
         //found a match, use the data
         if(data){
             boxData = data.box;

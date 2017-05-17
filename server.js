@@ -1,6 +1,4 @@
 //WRITE YOUR SSL IP HOST HERE
-//var address = "edeetee.ddns.net"
-var address = "artlens.herokuapp.com"
 var port = process.env.PORT||80;
 
 var path = require('path');
@@ -21,7 +19,7 @@ var wrax = require('./stolen.js');
 wrax.init();
 
 app.get('*',function(req,res,next){
-  if(req.headers['x-forwarded-proto']!='https')
+  if(req.headers['x-forwarded-proto']!='https' && process.env.HEROKU)
     return res.redirect(['https://', req.get('Host'), req.url].join(''))
   else
     return next() /* Continue to other routes if we're not redirecting */
@@ -35,6 +33,8 @@ includedFolders.forEach(function(folder){
 	app.use('/'+folder, express.static(folder));
 })
 
+
+//logic
 io.on('connection', function(socket){
   console.log('a user connected');
   
