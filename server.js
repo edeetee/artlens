@@ -42,5 +42,5 @@ io.on('connection', function(socket){
 });
 
 server.once('listening', function(){
-  console.log('listening on port ' + httpPort)
+  console.log('listening on port ' + port)
 })
