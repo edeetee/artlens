@@ -20,6 +20,13 @@ var io = require('socket.io').listen(server);
 var wrax = require('./stolen.js');
 wrax.init();
 
+app.get('*',function(req,res,next){
+  if(req.headers['x-forwarded-proto']!='https')
+    return res.redirect(['https://', req.get('Host'), req.url].join(''))
+  else
+    return next() /* Continue to other routes if we're not redirecting */
+})
+
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/index.html');
 });
