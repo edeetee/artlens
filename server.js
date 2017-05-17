@@ -4,31 +4,29 @@ var address = "artlens.herokuapp.com"
 var httpPort = 80;
 var httpsPort = 443;
 
+var ssl = true;
+
+
 var path = require('path');
 var express = require('express');
+
 var app = express();
 
-var ssl = true;
+if(ssl){
+  var server = app.listen(httpsPort);
+
+  var httpApp = express();
+  httpApp.get('*',function(req,res){  
+      res.redirect('https://'+address+req.url)
+  })
+  httpApp.listen(httpPort);
+} else
+  var server = app.listen(httpPort);
 
 var includedFolders = [
 	'css',
 	'js'
 ]
-
-if(ssl){
-  var server = require("auto-sni")({
-      email: "edeetee@gmail.com",
-      agreeTos: true,
-      dir: path.join(__dirname, "/ssl"),
-      debug: true,
-      domains: [address],
-      ports: {
-        http: httpPort,
-        https: httpsPort
-      }
-  }, app);
-} else
-  var server = app.listen(httpPort);
 
 var io = require('socket.io').listen(server);
 
