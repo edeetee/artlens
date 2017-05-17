@@ -1,6 +1,7 @@
 <body style="margin: 0px">
-<video id="video" width="640" height="480" style="margin-bottom: -480px" autoplay></video>
-<canvas id="canvas" width="640" height="480"></canvas>
+<video id="video" width="640" height="480" autoplay></video>
+<canvas id="canvas" width="640" height="480" style="position:absolute; left:0; top:0"></canvas>
+
 </br>
 <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" id="title">Loading...</h1>
 
@@ -56,6 +57,7 @@ window.onload = function() {
 
     //server requests an image
     socket.on('requestImage', function(){
+        console.log('taking photo');
         //draw image onto canvas
         ctx.drawImage(video, 0, 0, 640, 480);
         //get data

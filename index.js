@@ -1,9 +1,11 @@
 //WRITE YOUR SSL IP HOST HERE
-var address = "192.168.1.7"
+//var address = "edeetee.ddns.net"
+var address = "0.0.0.0"
 
-var httpPort = 8080;
-var httpsPort = 8081;
+var httpPort = 80;
+var httpsPort = 443;
 
+var path = require('path');
 var app = require('express')();
 
 var ssl = true;
@@ -12,6 +14,7 @@ if(ssl){
   var server = require("auto-sni")({
       email: "edeetee@gmail.com",
       agreeTos: true,
+      dir: path.join(__dirname, "/ssl"),
       debug: true,
       domains: [address],
       ports: {
