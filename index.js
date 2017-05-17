@@ -1,6 +1,6 @@
 //WRITE YOUR SSL IP HOST HERE
 //var address = "edeetee.ddns.net"
-var address = "0.0.0.0"
+var address = "artlens.herokuapp.com"
 var httpPort = 80;
 var httpsPort = 443;
 
@@ -8,7 +8,7 @@ var path = require('path');
 var express = require('express');
 var app = express();
 
-var ssl = false;
+var ssl = true;
 
 var includedFolders = [
 	'css',
