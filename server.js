@@ -2,7 +2,7 @@
 //var address = "edeetee.ddns.net"
 var address = "artlens.herokuapp.com"
 var httpPort = 80;
-var httpsPort = 443;
+var httpsPort = 8080;
 
 var ssl = true;
 
@@ -17,7 +17,7 @@ if(ssl){
 
   var httpApp = express();
   httpApp.get('*',function(req,res){  
-      res.redirect('https://'+address+req.url)
+      res.redirect('https://'+address+req.url + ":" + httpsPort)
   })
   httpApp.listen(httpPort);
 } else
