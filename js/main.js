@@ -4,93 +4,82 @@ window.onload = function() {
     // lets do some fun
     var title = document.getElementById('title');
     var button = document.getElementById('cameraButton')
-    var camera = document.getElementById('my_camera');
+    var camera = document.getElementById('video');
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
 
-    // Webcam.set({
-    //     dest_width: 640,
-    //     dest_height: 480
-    // });
-    Webcam.attach( '#my_camera' );
+    Webcam.set({
+        dest_width: 640,
+        dest_height: 480
+    });
+    Webcam.attach( '#video' );
 
     button.onclick = takePhoto;
 
     function takePhoto(){
-        Webcam.snap(function(){
+        //dont do anything while processing
+        button.onclick = null;
+        
+        Webcam.freeze();
+        Webcam.snap(function(uri, canvas, ctx){
             var imageData = ctx.getImageData(0, 0, 640, 480);
             socket.emit('processImage', imageData.data);
-        }, canvas);
+        });
     }
 
     function closePhoto(){
-        if(boxData || pointsData)
-            return;
-        
-        //reset the data
-        boxData = null;
-        pointsData = null;
-
         title.innerText = "No match";
         //make button take photo again
         button.onclick = takePhoto;
-        //show the camera again
-        camera.style.display = 'initial';
-        canvas.style.display = 'none';
-    }
 
-    var boxData;
-    var pointsData;
+        //clear the overlay
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        Webcam.unfreeze();
+    }
 
     //server finished processing
     socket.on('processed', function(data){
         console.log('received data: ', data);
         //found a match, use the data
-        if(data){
+        if(!data)
+            closePhoto();
+        else{
             //set the data
-            boxData = data.box;
-            pointsData = data.points;
             title.innerText = data.title;
 
-            button.innerHTML = "Close photo";
             //make the button close
+            button.innerHTML = "Close photo";
             button.onclick = closePhoto;
-            //show the camera snapshot
-            camera.style.display = 'none';
-            canvas.style.display = 'initial';
+
+            ctx.scale(canvas.width/640, canvas.height/480);
+            
             //draw the data
-            draw();
-        } else
-            closePhoto();
-    })
-
-    //draw the dots
-    function draw(){
-        //draw the bounding box
-        if(boxData){
-            ctx.strokeStyle = "white";
-            ctx.beginPath();
-            ctx.moveTo(boxData[0].x,boxData[0].y);
-            ctx.lineTo(boxData[1].x,boxData[1].y);
-            ctx.lineTo(boxData[2].x,boxData[2].y);
-            ctx.lineTo(boxData[3].x,boxData[3].y);
-            ctx.lineTo(boxData[0].x,boxData[0].y);
-            ctx.lineWidth=4;
-            ctx.stroke();
-        }
-
-        //draw the matched points
-        if(pointsData){
-            pointsData.forEach(function(val){
-                if(val.correct) {
-                    ctx.fillStyle = "green";
-                } else {
-                    ctx.fillStyle = "red";
-                }
-                ctx.fillRect(val.x-1,val.y-1,3,3);
+            if(data.box){
+                ctx.strokeStyle = "white";
+                ctx.beginPath();
+                ctx.moveTo(data.box[0].x,data.box[0].y);
+                ctx.lineTo(data.box[1].x,data.box[1].y);
+                ctx.lineTo(data.box[2].x,data.box[2].y);
+                ctx.lineTo(data.box[3].x,data.box[3].y);
+                ctx.lineTo(data.box[0].x,data.box[0].y);
+                ctx.lineWidth=4;
                 ctx.stroke();
-            })
+            }
+
+            //draw the matched points
+            if(data.points){
+                data.points.forEach(function(val){
+                    if(val.correct) {
+                        ctx.fillStyle = "green";
+                    } else {
+                        ctx.fillStyle = "red";
+                    }
+                    ctx.fillRect(val.x-1,val.y-1,3,3);
+                    ctx.stroke();
+                })
+            }
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
-    }
+    })
 }
