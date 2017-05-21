@@ -21,15 +21,16 @@ window.onload = function() {
         //dont do anything while processing
         button.onclick = null;
         
-        Webcam.freeze();
         Webcam.snap(function(uri, canvas, ctx){
             var imageData = ctx.getImageData(0, 0, 640, 480);
             socket.emit('processImage', imageData.data);
+            Webcam.freeze();
         });
     }
 
     function closePhoto(){
-        title.innerText = "No match";
+        title.innerText = "Click 'Take Photo' to start";
+        button.innerText = "Take Photo"
         //make button take photo again
         button.onclick = takePhoto;
 
@@ -43,13 +44,13 @@ window.onload = function() {
         console.log('received data: ', data);
         //found a match, use the data
         if(!data)
-            closePhoto();
+            closePhoto();   
         else{
             //set the data
             title.innerText = data.title;
 
             //make the button close
-            button.innerHTML = "Close photo";
+            button.innerText = "Close photo";
             button.onclick = closePhoto;
 
             ctx.scale(canvas.width/640, canvas.height/480);
