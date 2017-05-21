@@ -4,9 +4,11 @@ var address = "192.168.1.7"
 var httpPort = 8080;
 var httpsPort = 8081;
 
+var indexPage = "index.html"
+
 var app = require('express')();
 
-var ssl = true;
+var ssl = false;
 
 if(ssl){
   var server = require("auto-sni")({
@@ -28,7 +30,7 @@ var wrax = require('./stolen.js');
 wrax.init();
 
 app.get('/', function(req, res){
-	res.sendFile(__dirname + '/index.html');
+	res.sendFile(__dirname + '/'+indexPage);
 });
 
 io.on('connection', function(socket){
