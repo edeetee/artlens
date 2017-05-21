@@ -1,91 +1,17 @@
-<body style="margin: 0px">
-<video id="video" width="640" height="480" style="margin-bottom: -480px" autoplay></video>
-<canvas id="canvas" width="640" height="480"></canvas>
-</br>
-<h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" id="title">Loading...</h1>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/css/index.css">
+<body>
+    <div id="cameraview">
+        <div id="video"></div>
+        <canvas id="canvas"></canvas>
+    </div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script>
-window.onload = function() {
-    var socket = io();
+    </br>
+    <h1 id="title">Click 'Take Photo' to start</h1>
 
-    // lets do some fun
-    var video = document.getElementById('video');
-    var canvas = document.getElementById('canvas');
-    var title = document.getElementById('title');
+    <button id="cameraButton">Take Photo</button>
 
-    var ctx = canvas.getContext('2d');
-        
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
-	    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-	        video.src = window.URL.createObjectURL(stream);
-        });
-
-    function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        //draw the bounding box
-        if(boxData){
-            ctx.strokeStyle = "white";
-            ctx.beginPath();
-            ctx.moveTo(boxData[0].x,boxData[0].y);
-            ctx.lineTo(boxData[1].x,boxData[1].y);
-            ctx.lineTo(boxData[2].x,boxData[2].y);
-            ctx.lineTo(boxData[3].x,boxData[3].y);
-            ctx.lineTo(boxData[0].x,boxData[0].y);
-            ctx.lineWidth=4;
-            ctx.stroke();
-        }
-
-        //draw the matched points
-        if(pointsData){
-            pointsData.forEach(function(val){
-                if(val.correct) {
-                    ctx.fillStyle = "green";
-                } else {
-                    ctx.fillStyle = "red";
-                }
-                ctx.fillRect(val.x-1,val.y-1,3,3);
-                ctx.stroke();
-            })
-        }
-    }
-
-    var boxData;
-    var pointsData;
-
-    //server requests an image
-    socket.on('requestImage', function(){
-        //draw image onto canvas
-        ctx.drawImage(video, 0, 0, 640, 480);
-        //get data
-        var imageData = ctx.getImageData(0, 0, 640, 480);
-        //redraw dots etc on canvas
-        draw();
-        //send data to server
-        socket.emit('processImage', imageData.data);
-    });
-
-    //server finished processing
-    socket.on('processed', function(data){
-        //found a match, use the data
-        if(data){
-            boxData = data.box;
-            pointsData = data.points;
-            title.innerText = data.title;
-        } else{
-            boxData = null;
-            pointsData = null;
-            title.innerText = "No match found";
-        }
-        //redraw canvas with new data
-        draw();
-    })
-    
-    window.onunload = function() {
-        video.pause();
-        video.src=null;
-    };
-}
-</script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/webcam.js"></script>
+    <script src="/js/main.js"></script>
 </body>

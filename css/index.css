@@ -1,0 +1,44 @@
+body{
+    overflow: auto;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#cameraview{
+    max-width: 100vw;
+    /*480/640*/
+    max-height: 75vw;
+    width: 640px;
+    height: 480px;
+}
+
+#video{
+    position:absolute;
+    z-index: 1;
+    max-width: 100vw;
+    /*480/640*/
+    max-height: 75vw;
+    width: 640px;
+    height: 480px;
+}
+
+#canvas{
+    position:absolute;
+    z-index: 2;
+    max-width: 100vw;
+    max-height: 75vw;
+    width: 640px;
+    height: 480px;  
+}
+
+#cameraButton{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+#title{
+    text-align: center;
+}
