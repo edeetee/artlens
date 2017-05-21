@@ -2,20 +2,71 @@ window.onload = function() {
     var socket = io();
 
     // lets do some fun
-    var video = document.getElementById('video');
-    var canvas = document.getElementById('canvas');
     var title = document.getElementById('title');
+    var button = document.getElementById('cameraButton')
+    var camera = document.getElementById('my_camera');
 
+    var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
+
+    // Webcam.set({
+    //     dest_width: 640,
+    //     dest_height: 480
+    // });
+    Webcam.attach( '#my_camera' );
+
+    button.onclick = takePhoto;
+
+    function takePhoto(){
+        Webcam.snap(function(){
+            var imageData = ctx.getImageData(0, 0, 640, 480);
+            socket.emit('processImage', imageData.data);
+        }, canvas);
+    }
+
+    function closePhoto(){
+        if(boxData || pointsData)
+            return;
         
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)
-	    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-	        video.src = window.URL.createObjectURL(stream);
-        });
+        //reset the data
+        boxData = null;
+        pointsData = null;
 
+        title.innerText = "No match";
+        //make button take photo again
+        button.onclick = takePhoto;
+        //show the camera again
+        camera.style.display = 'initial';
+        canvas.style.display = 'none';
+    }
+
+    var boxData;
+    var pointsData;
+
+    //server finished processing
+    socket.on('processed', function(data){
+        console.log('received data: ', data);
+        //found a match, use the data
+        if(data){
+            //set the data
+            boxData = data.box;
+            pointsData = data.points;
+            title.innerText = data.title;
+
+            button.innerHTML = "Close photo";
+            //make the button close
+            button.onclick = closePhoto;
+            //show the camera snapshot
+            camera.style.display = 'none';
+            canvas.style.display = 'initial';
+            //draw the data
+            draw();
+        } else
+            closePhoto();
+    })
+
+    //draw the dots
     function draw(){
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         //draw the bounding box
         if(boxData){
             ctx.strokeStyle = "white";
@@ -42,41 +93,4 @@ window.onload = function() {
             })
         }
     }
-
-    var boxData;
-    var pointsData;
-
-    //server requests an image
-    socket.on('requestImage', function(){
-        //draw image onto canvas
-        ctx.drawImage(video, 0, 0, 640, 480);
-        //get data
-        var imageData = ctx.getImageData(0, 0, 640, 480);
-        //redraw dots etc on canvas
-        draw();
-        //send data to server
-        socket.emit('processImage', imageData.data);
-    });
-
-    //server finished processing
-    socket.on('processed', function(data){
-        console.log('received data: ', data);
-        //found a match, use the data
-        if(data){
-            boxData = data.box;
-            pointsData = data.points;
-            title.innerText = data.title;
-        } else{
-            boxData = null;
-            pointsData = null;
-            title.innerText = "No match found";
-        }
-        //redraw canvas with new data
-        draw();
-    })
-    
-    window.onunload = function() {
-        video.pause();
-        video.src=null;
-    };
 }
