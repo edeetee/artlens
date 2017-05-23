@@ -11,27 +11,30 @@ body{
     max-width: 100vw;
     /*480/640*/
     max-height: 75vw;
+    overflow: hidden;
     width: 640px;
     height: 480px;
 }
 
 #video{
-    position:absolute;
+    /*position:absolute;*/
     z-index: 1;
     max-width: 100vw;
     /*480/640*/
     max-height: 75vw;
+    overflow: hidden;
     width: 640px;
     height: 480px;
 }
 
 #canvas{
-    position:absolute;
+    /*position:absolute;*/
     z-index: 2;
     max-width: 100vw;
     max-height: 75vw;
+    overflow: hidden;
     width: 640px;
-    height: 480px;  
+    height: 480px;
 }
 
 #cameraButton{

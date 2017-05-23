@@ -6,8 +6,8 @@
     "express": "^4.15.2",
     "socket.io": "^2.0.1",
     "jsfeat":"^0.0.8",
-    "auto-sni": "",
-    "pngjs": ""
+    "auto-sni": "latest",
+    "pngjs": "latest"
   },
   "scripts": {
     "start": "node server.js"
