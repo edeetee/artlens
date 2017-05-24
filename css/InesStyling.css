@@ -10,6 +10,11 @@ body{
     align-items: center;
 }
 
+a{
+    text-decoration:none;
+    color: inherit;
+}
+
 #cameraview{
     max-width: 500px;
     max-height: 800px;
@@ -77,9 +82,14 @@ body{
   background-color: white;
   opacity: 0.5;
   filter: blur(5);
+<<<<<<< HEAD
+
+
+=======
   font-family: baskerville;
   font-style: italic;
   font-size: 28px;
+>>>>>>> 43df9385b8bd64a445a2e5e18e8a1bb9dbddf47a
 }
 
 #languageButton{

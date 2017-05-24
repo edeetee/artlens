@@ -1,17 +1,18 @@
 // change to your preferred port
 var port = process.env.PORT||8080;
 
+var includedFolders = [
+	'css',
+	'js'
+
+]
+
 var path = require('path');
 var express = require('express');
 
 var app = express();
 
 var server = app.listen(port);
-
-var includedFolders = [
-	'css',
-	'js'
-]
 
 var io = require('socket.io').listen(server);
 
