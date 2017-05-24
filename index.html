@@ -1,21 +1,38 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-<link rel="stylesheet" href="/css/InesStyling.css">
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="/css/InesStyling.css">
+    <!--<link rel="stylesheet" href="css/introjs.css">-->
+    
+    
+
+</head>
+
 <body>
+    
     <div id="cameraview">
         <div id="video"></div>
         <canvas id="canvas"></canvas>
-        <button id="infoButton">i</button>
+        <button id="infoButton"><a href="temp_tutorial/temp_tutorial.html">i</a></button>
         <button id="languageButton">EN</button>
         <button id="cameraButton"><button id="centerButton"></button></button>
     </div>
 
-    </br>
+    <br>
     <h1 id="title">Click 'Take Photo' to start</h1>
-
-
-
+    
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/webcam.js"></script>
     <script src="/js/main.js"></script>
+    <!--<script src="js/intro.js"></script>
+    <script>
+    introJs().start();
+    </script>-->
+    
+    
+
+
 </body>
