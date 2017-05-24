@@ -2,6 +2,7 @@ window.onload = function() {
     var socket = io();
 
     // lets do some fun
+    var cameraView = document.getElementById('cameraview');
     var title = document.getElementById('title');
     var button = document.getElementById('cameraButton')
     var camera = document.getElementById('video');
@@ -10,8 +11,22 @@ window.onload = function() {
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
+  
+    //set widths/heights;
+    var height = cameraView.clientHeight;
+    var width = height*(640/480);
+    
+    camera.style.width = width;
+    camera.style.height = height;
+  
+    canvas.style.width = width;
+    canvas.style.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
     Webcam.set({
+        width: width,
+        height: height,
         dest_width: 640,
         dest_height: 480
     });
@@ -81,7 +96,7 @@ window.onload = function() {
             if(data.points){
                 data.points.forEach(function(val){
                     if(val.correct) {
-                        ctx.fillStyle = "green";
+                        ctx.fillStyle = "white";
                     } else {
                         ctx.fillStyle = "red";
                     }
