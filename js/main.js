@@ -5,6 +5,8 @@ window.onload = function() {
     var title = document.getElementById('title');
     var button = document.getElementById('cameraButton')
     var camera = document.getElementById('video');
+    var info = document.getElementById('infoButton');
+    var back = document.getElementById('backButton');
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -14,7 +16,9 @@ window.onload = function() {
         dest_height: 480
     });
     Webcam.attach( '#video' );
-
+  
+    document.getElementById('backButton').style.visibility = "hidden";
+  
     button.onclick = takePhoto;
 
     function takePhoto(){
@@ -30,9 +34,11 @@ window.onload = function() {
 
     function closePhoto(){
         title.innerText = "Click 'Take Photo' to start";
-        button.innerText = "Take Photo"
+//        button.innerText = "Take Photo"
         //make button take photo again
         button.onclick = takePhoto;
+      document.getElementById('infoButton').style.visibility = "visible";
+      document.getElementById('backButton').style.visibility = "hidden";
 
         //clear the overlay
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -50,8 +56,11 @@ window.onload = function() {
             title.innerText = data.title;
 
             //make the button close
-            button.innerText = "Close photo";
-            button.onclick = closePhoto;
+//            button.innerText = "Close photo";
+            document.getElementById('backButton').style.visibility = "visible";
+            document.getElementById('infoButton').style.visibility = "hidden";
+            back.onclick = closePhoto;
+            
 
             ctx.scale(canvas.width/640, canvas.height/480);
             

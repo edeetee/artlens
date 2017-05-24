@@ -7,7 +7,8 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Open Sans', helvetica, sans-serif;
+    
 }
 
 a{
@@ -45,14 +46,11 @@ a{
     height: 480px;
 }
 
-#infoButton{
+#backButton{
   position: absolute;;
-  z-index: 4;
-  left: 10px;
-  top: 10px;
-  font-family: baskerville;
-  font-style: italic;
-  font-size: 28px;
+  z-index: 3;
+  margin-left: 10px;
+  margin-top: 10px;
   width: 50px;
   height: 50px;
   border: 2px solid rgba(255,255,255,0.5);
@@ -60,15 +58,38 @@ a{
   background-color: white;
   opacity: 0.5;
   filter: blur(5);
+  font-style: italic;
+  font-size: 30px;
+}
+
+#infoButton{
+  position: absolute;;
+  z-index: 4;
+  margin-left: 10px;
+  margin-top: 10px;
+  width: 50px;
+  height: 50px;
+  border: 2px solid rgba(255,255,255,0.5);
+  border-radius: 40px;
+  background-color: white;
+  opacity: 0.5;
+  filter: blur(5);
+<<<<<<< HEAD
 
 
+=======
+  font-family: baskerville;
+  font-style: italic;
+  font-size: 28px;
+>>>>>>> 43df9385b8bd64a445a2e5e18e8a1bb9dbddf47a
 }
 
 #languageButton{
-  position: absolute;;
+  position: relative;;
   z-index: 4;
-  right: 10px;
-  top: 10px;
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
   font-family: 'Open Sans', sans-serif;
   font-size: 20px;
   width: 50px;
@@ -85,10 +106,10 @@ a{
   z-index: 4;
 /*  left: 147px;*/
 /*  bottom: 10px;*/
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border: 8px solid lightgrey;
-  border-radius: 60px;
+  border-radius: 50px;
   background-color: rgba(0, 0, 0, 0);
   bottom: 10px;
   left: 50%;
@@ -101,9 +122,9 @@ a{
   z-index: 3;
 /*  left: 157px;*/
 /*  bottom: 20px;*/
-  width: 60px;
-  height: 60px;
-  border-radius: 40px;
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
   background-color: lightgrey;
   border: 4px solid lightgrey;
   bottom: 20px;
