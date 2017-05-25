@@ -36,6 +36,8 @@ window.onload = function() {
   
     button.onclick = takePhoto;
 
+    var progressBar;
+
     function takePhoto(){
         //dont do anything while processing
         button.onclick = null;
@@ -44,26 +46,48 @@ window.onload = function() {
             var imageData = ctx.getImageData(0, 0, 640, 480);
             socket.emit('processImage', imageData.data);
             Webcam.freeze();
+            progressBar = new ProgressBar.Circle('#progress-bar', {
+                strokeWidth: 10,
+                easing: 'easeInOut',
+                color: 'white',
+                duration: 500,
+                text: { 
+                    value: "Uploading",
+                    autoStyleContainer: false
+                }
+            });
         });
     }
 
     function closePhoto(){
         title.innerText = "Click 'Take Photo' to start";
-//        button.innerText = "Take Photo"
+    //        button.innerText = "Take Photo"
         //make button take photo again
         button.onclick = takePhoto;
-      document.getElementById('infoButton').style.visibility = "visible";
-      document.getElementById('backButton').style.visibility = "hidden";
+        document.getElementById('infoButton').style.visibility = "visible";
+        document.getElementById('backButton').style.visibility = "hidden";
 
         //clear the overlay
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         Webcam.unfreeze();
     }
 
+    socket.on('started', function(){
+        progressBar.setText('Processing')
+    });
+
+    socket.on('progress', function(progress){
+        console.log('progress: ' + progress*100 + '%');
+        progressBar.animate(progress);
+    })
+
     //server finished processing
-    socket.on('processed', function(data){
+    socket.on('finished', function(data){
         console.log('received data: ', data);
         //found a match, use the data
+
+        progressBar.destroy();
+
         if(!data)
             closePhoto();   
         else{
