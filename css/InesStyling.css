@@ -7,12 +7,6 @@ body{
     font-family: 'Open Sans', helvetica, sans-serif;
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-a{
-    text-decoration:none;
-    color: inherit;
 }
 
 #cameraview{
@@ -23,13 +17,6 @@ a{
     width: 100vw;
     z-index: 10;
     transform: translateZ(0);
-}
-
-#videocontainer{
-  position: absolute;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
 }
 
 #video{
@@ -82,14 +69,9 @@ a{
   background-color: white;
   opacity: 0.5;
   filter: blur(5);
-<<<<<<< HEAD
-
-
-=======
   font-family: baskerville;
   font-style: italic;
   font-size: 28px;
->>>>>>> 43df9385b8bd64a445a2e5e18e8a1bb9dbddf47a
 }
 
 #languageButton{
