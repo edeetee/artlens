@@ -44,6 +44,8 @@ window.onload = function() {
         //dont do anything while processing
         button.onclick = null;
       
+        document.getElementById('cameraButton').style.visibility = "hidden";
+      
         
         Webcam.snap(function(uri, canvas, ctx){
             var imageData = ctx.getImageData(0, 0, 640, 480);
@@ -72,6 +74,7 @@ window.onload = function() {
         button.onclick = takePhoto;
         document.getElementById('infoButton').style.visibility = "visible";
         document.getElementById('backButton').style.visibility = "hidden";
+        document.getElementById('title').style.visibility = "hidden";
         document.getElementById('title').style.bottom = "-10px";
       
       document.getElementById('cameraButton').style.visibility = "visible";
@@ -107,8 +110,6 @@ window.onload = function() {
 //            button.innerText = "Close photo";
             document.getElementById('backButton').style.visibility = "visible";
             document.getElementById('infoButton').style.visibility = "hidden";
-          
-          document.getElementById('cameraButton').style.visibility = "hidden";
           
             back.onclick = closePhoto;
             
