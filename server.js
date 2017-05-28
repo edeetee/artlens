@@ -10,41 +10,66 @@ var includedFolders = [
 var path = require('path');
 var express = require('express');
 var request = require('ajax-request');
-
-var app = express();
-
-var server = app.listen(port);
+var wrax = require('./stolen.js');
+var sharp = require('sharp');
 
 var io = require('socket.io').listen(server);
+var app = express();
+var server = app.listen(port);
 
-var wrax = require('./stolen.js');
+var pages = 1;
+var per_page = 50;
+for(var i = 1; i <= pages; i++){
+  request({
+    url: "http://api.digitalnz.org/v3/records.json",
+    json: true,
+    data: {
+      api_key: '_Yuwd93tskTvvgWftRLz',
+      "and[primary_collection][]": "Te Papa Collections Online",
+      "and[dc_type][]": "Physical Object",
+      "or[collection][]": [
+        "History Collection",
+        "Archives - Museum Collection",
+        "Art Collection"
+      ],
+      "without[usage][]": "All rights reserved",
+      "without[description][]": "Unknown",
+      page: i,
+      per_page: per_page,
+      fields: "id,title,landing_url,large_thumbnail_url,dc_type,creator,description,tag"
+    }
+  }, searchRequestCallback);
+}
 
-//http://api.digitalnz.org/v3/records.json?api_key=_Yuwd93tskTvvgWftRLz&and[primary_collection][]=Te%20Papa%20Collections%20Online&without[collection][]=Plants%20Collection&without[collection][]=Molluscs%20Collection&without[usage][]=All%20rights%20reserved&and[dc_type][]=Physical%20Object&page=1&sort=date
+var finishedRequests = 0;
+var successfulRequests = 0;
 
-request({
-  url: "http://api.digitalnz.org/v3/records.json",
-  json: true,
-  data: {
-    api_key: '_Yuwd93tskTvvgWftRLz',
-    and: [
-      "[primary_collection][]=Te Papa Collections Online",
-      "[dc_type][]=Physical Object"
-    ],
-    or: [
-      "[collection][]=History Collection",
-      "[collection][]=Archives - Museum Collection",
-      "[collection][]=Art Collection"
-    ],
-    without: [
-      "[usage][]=All rights reserved",
-      "[description][]=Unknown"
-    ],
-    page: "1",
-    fields: "id,title,landing_url,large_thumbnail_url,dc_type,creator,description,tag"
+function searchRequestCallback(err, res, body){
+  if(err){
+    console.log("search request failed: " + err);
+  } else{
+    body.search.results.forEach(function(result){
+      request.download({
+        url: result.large_thumbnail_url,
+        destPath: "tempimages/" + result.id + ".jpg"
+      }, function(err, res, body, destPath){
+        sharp(path.join(__dirname,destPath))
+          .resize(640, 480)
+          .crop(sharp.strategy.entropy)
+          .min()
+          .toFile(path.join(__dirname, "images", result.id + ".png"), function(err, info){
+            finishedRequests++;
+            if(!err){
+              successfulRequests++;
+            }
+            console.log('succeeded: ' + successfulRequests + ', attempted: ' + finishedRequests + ', of total: ' + pages*per_page);
+            if(finishedRequests == pages*per_page)
+              wrax.init();
+          });
+      });
+    });
   }
-}, function(err, res, body){
-  
-})
+}
 
 //page loading shit
 app.get('*',function(req,res,next){

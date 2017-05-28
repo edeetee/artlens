@@ -7,6 +7,14 @@ var fs = require('fs');
 var PNG = require('pngjs').PNG;
 var jsfeat = require('jsfeat');
 
+
+fs.mkdir('images', null, callback);
+fs.mkdir('tempimages', null, callback);
+
+function callback(){
+
+}
+
 var ctx;
 var img_u8, img_u8_smooth, screen_corners, num_corners, screen_descriptors;
 
@@ -116,6 +124,7 @@ function demo_app() {
     // transform matrix
     homo3x3 = new jsfeat.matrix_t(3,3,jsfeat.F32C1_t);
     match_mask = new jsfeat.matrix_t(500,1,jsfeat.U8C1_t);
+    var logcount = 0;
     fs.readdir('images', function(err, files){
         files.forEach(function(file, i){
             titles[i] = file.slice(0, -4)
@@ -123,9 +132,10 @@ function demo_app() {
             fs.createReadStream(img)
             .pipe(new PNG())
             .on('parsed', function() {
-                console.log('parsing ' + file + ' [' + i + ']');
+                logcount++;
+                console.log('parsing ' + logcount + '/' + titles.length);
                 var pattern_corners = [];
-                var pattern_descriptors = [];
+                var pattern_descriptors = [];1
                 jsfeat.imgproc.grayscale(this.data, 640, 480, img_u8);
                 train_pattern(pattern_corners, pattern_descriptors);
                 patterns_corners[i] = pattern_corners;
