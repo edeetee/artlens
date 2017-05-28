@@ -2,7 +2,7 @@ var tour;
 
     tour = new Shepherd.Tour({
         defaults: {
-            classes: 'shepherd-theme-arrows-plain-buttons',
+            classes: 'shepherd-theme-dark',
             /*scrollTo: true*/
         }
     });
@@ -46,7 +46,6 @@ var tour;
     tour.addStep('Info', { 
         text: 'Drag up to view the details',
         attachTo: '#title top',
-        class: 'active',
         buttons: [
             {
                 text: 'Next',
