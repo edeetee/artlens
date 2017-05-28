@@ -1,5 +1,5 @@
 // change to your preferred port
-var port = process.env.PORT||8080;
+var port = process.env.PORT||80;
 
 var includedFolders = [
 	'css',
@@ -40,7 +40,10 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('processImage', function(imageData){
-    socket.emit('processed', wrax.match(imageData));
+    socket.emit('started');
+    socket.emit('finished', wrax.match(imageData, function(progress){
+      socket.emit('progress', progress);
+    }));
   })
 });
 

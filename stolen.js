@@ -136,7 +136,7 @@ function demo_app() {
 }
 
 //imageData = ctx.getImageData(0, 0, 640, 480);
-function findMatch(data) {
+function findMatch(data, progressCallback) {
     jsfeat.imgproc.grayscale(data, 640, 480, img_u8);
     jsfeat.imgproc.gaussian_blur(img_u8, img_u8_smooth, blur_size);
 
@@ -167,6 +167,7 @@ function findMatch(data) {
             best_matches_render = render_matches_list(matches, num_matches);
             best_box_render = tCorners(homo3x3.data, 640, 480);
         }
+        progressCallback((i+1)/titles.length);
     }
 
     //found matches

@@ -1,13 +1,22 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
 <!DOCTYPE html>
 <html lang="en">
     
 <head>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/InesStyling.css">
     <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
     
     
+=======
+    <link rel="stylesheet" href="/css/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <!--<link rel="stylesheet" href="css/introjs.css">-->
+>>>>>>> 24b64bf3c3a123bdb75f50a580205d81abfc4223
 
 </head>
 
@@ -18,20 +27,40 @@
         <canvas id="canvas"></canvas>
         <button id="infoButton" onclick="startTour()">i</button>
         <button id="languageButton">EN</button>
-        <button id="cameraButton"><button id="centerButton"></button></button>
-      <button id="backButton" align="right">&laquo;</button>
+        <button id="cameraButton">
+          <div id="centerButton"></div>
+        </button>
+        <div id='progress-bar'></div>
+      <button id="backButton" align="right">&#60;</button>
+      <div id="title"><h1></h1></div>
     </div>
-
-    <br>
-    <h1 id="title">Click 'Take Photo' to start</h1>
     
+  
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/webcam.js"></script>
+    <script src="/js/progressbar.js"></script>
     <script src="/js/main.js"></script>
+<<<<<<< HEAD
     
     <script src="/js/tether.js"></script>
     <script src="/js/shepherd.min.js"></script>
     <script src="js/tutorial.js"></script>
+=======
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  
+  <script>
+    $('#title').click(function() {   
+    $(this).animate({bottom: "30px"}, 1200);
+      $(this).css('overflow', 'scroll')
+});
+  </script>
+  
+    <!--<script src="js/intro.js"></script>
+    <script>
+    introJs().start();
+    </script>-->
+>>>>>>> 24b64bf3c3a123bdb75f50a580205d81abfc4223
     
     
 
