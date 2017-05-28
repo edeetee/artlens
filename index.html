@@ -1,12 +1,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
 <!DOCTYPE html>
 <html lang="en">
     
 <head>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="/css/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <!--<link rel="stylesheet" href="css/introjs.css">-->
 
 </head>
@@ -19,17 +21,26 @@
         <button id="infoButton"><a href="temp_tutorial/temp_tutorial.html">i</a></button>
         <button id="languageButton">EN</button>
         <button id="cameraButton">
-          <button id="centerButton"></button>
+          <div id="centerButton"></div>
         </button>
         <div id='progress-bar'></div>
       <button id="backButton" align="right">&laquo;</button>
     </div>
-    <h1 id="title">^ Click to start ^</h1>
+    <div id="title"><h1></h1></div>
   
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/webcam.js"></script>
     <script src="/js/progressbar.js"></script>
     <script src="/js/main.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  
+  <script>
+    $('#title').click(function() {   
+    $(this).animate({bottom: "30px"}, 1200);
+      $(this).css('overflow', 'scroll')
+});
+  </script>
   
     <!--<script src="js/intro.js"></script>
     <script>

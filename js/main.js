@@ -33,7 +33,9 @@ window.onload = function() {
     Webcam.attach( '#video' );
   
     document.getElementById('backButton').style.visibility = "hidden";
+  document.getElementById('title').style.visibility = "hidden";
   
+    
     button.onclick = takePhoto;
 
     var progressBar;
@@ -41,6 +43,7 @@ window.onload = function() {
     function takePhoto(){
         //dont do anything while processing
         button.onclick = null;
+      
         
         Webcam.snap(function(uri, canvas, ctx){
             var imageData = ctx.getImageData(0, 0, 640, 480);
@@ -57,15 +60,21 @@ window.onload = function() {
                 }
             });
         });
+      document.getElementById('title').style.visibility = "visible";
     }
 
     function closePhoto(){
-        title.innerText = "Click 'Take Photo' to start";
+//      document.getElementById('title').style.visibility = "hidden";
+        title.innerText = "";
     //        button.innerText = "Take Photo"
+      
         //make button take photo again
         button.onclick = takePhoto;
         document.getElementById('infoButton').style.visibility = "visible";
         document.getElementById('backButton').style.visibility = "hidden";
+        document.getElementById('title').style.bottom = "-10px";
+      
+      document.getElementById('cameraButton').style.visibility = "visible";
 
         //clear the overlay
         ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -98,6 +107,9 @@ window.onload = function() {
 //            button.innerText = "Close photo";
             document.getElementById('backButton').style.visibility = "visible";
             document.getElementById('infoButton').style.visibility = "hidden";
+          
+          document.getElementById('cameraButton').style.visibility = "hidden";
+          
             back.onclick = closePhoto;
             
 
