@@ -75,7 +75,8 @@ window.onload = function() {
         document.getElementById('infoButton').style.visibility = "visible";
         document.getElementById('backButton').style.visibility = "hidden";
         document.getElementById('title').style.visibility = "hidden";
-        document.getElementById('title').style.bottom = "-10px";
+        document.getElementById('title').style.bottom = "-480px";
+        document.getElementById('title').style.overflow = "hidden";
       
       document.getElementById('cameraButton').style.visibility = "visible";
 

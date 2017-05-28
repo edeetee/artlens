@@ -7,7 +7,20 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<<<<<<< HEAD
+<!--    <link rel="stylesheet" href="/css/InesStyling.css">-->
+=======
     <link rel="stylesheet" href="/css/InesStyling.css">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    <link rel="stylesheet" href="/css/shepherd-theme-arrows-plain-buttons.css"> 
+=======
+>>>>>>> ccfba475009037fd15a95df03d6c3b4a745e0b83
+    <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
+>>>>>>> c1655c2f9fce7e269077d03be3e4fe5dbb3d77bb
+    
+>>>>>>> 0c30ea3ee06bcfce558e25990e583c8a840ddd2e
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="css/shepherd-theme-dark.css">  
 
@@ -47,9 +60,20 @@
   
   <script>
     $('#title').click(function() {   
-    $(this).animate({bottom: "30px"}, 1200);
+    $(this).animate({bottom: "40px"}, 2200);
       $(this).css('overflow', 'scroll')
+      $('#video').css({
+        'filter': 'blur(5px)',
+        'transition':'all 0.9s ease-out',
+    });
 });
+    
+    $("#backButton").click(function(){
+      $('#video').css({
+        'filter': 'blur(0px)',
+        'transition':'all 0.5s ease-out',
+    });
+    });
   </script>
   
 
