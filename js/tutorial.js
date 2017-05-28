@@ -3,7 +3,7 @@ var tour;
     tour = new Shepherd.Tour({
         defaults: {
             classes: 'shepherd-theme-dark',
-            scrollTo: true
+            /*scrollTo: true*/
         }
     });
 
@@ -27,7 +27,7 @@ var tour;
 
     tour.addStep('Camera', { 
         text: 'Tap the camera button to capture the object',
-        attachTo: '#cameraButton top',
+        attachTo: '#centerButton top',
         buttons: [
             {
                 text: 'Next',
