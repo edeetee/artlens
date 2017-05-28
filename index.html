@@ -7,7 +7,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link rel="stylesheet" href="/css/InesStyling.css">
+<!--    <link rel="stylesheet" href="/css/InesStyling.css">-->
     <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
     
     <link rel="stylesheet" href="/css/index.css">
@@ -49,9 +49,20 @@
   
   <script>
     $('#title').click(function() {   
-    $(this).animate({bottom: "30px"}, 1200);
+    $(this).animate({bottom: "40px"}, 2200);
       $(this).css('overflow', 'scroll')
+      $('#video').css({
+        'filter': 'blur(5px)',
+        'transition':'all 0.9s ease-out',
+    });
 });
+    
+    $("#backButton").click(function(){
+      $('#video').css({
+        'filter': 'blur(0px)',
+        'transition':'all 0.5s ease-out',
+    });
+    });
   </script>
   
     <!--<script src="js/intro.js"></script>
