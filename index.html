@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link rel="stylesheet" href="/css/InesStyling.css">
-    <!--<link rel="stylesheet" href="css/introjs.css">-->
+    <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
     
     
 
@@ -16,7 +16,7 @@
     <div id="cameraview">
         <div id="video"></div>
         <canvas id="canvas"></canvas>
-        <button id="infoButton"><a href="temp_tutorial/temp_tutorial.html">i</a></button>
+        <button id="infoButton" onclick="startTour()">i</button>
         <button id="languageButton">EN</button>
         <button id="cameraButton"><button id="centerButton"></button></button>
       <button id="backButton" align="right">&laquo;</button>
@@ -28,10 +28,10 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/webcam.js"></script>
     <script src="/js/main.js"></script>
-    <!--<script src="js/intro.js"></script>
-    <script>
-    introJs().start();
-    </script>-->
+    
+    <script src="/js/tether.js"></script>
+    <script src="/js/shepherd.min.js"></script>
+    <script src="js/tutorial.js"></script>
     
     
 
