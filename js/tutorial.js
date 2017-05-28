@@ -2,7 +2,7 @@ var tour;
 
     tour = new Shepherd.Tour({
         defaults: {
-            classes: 'shepherd-theme-arrows',
+            classes: 'shepherd-theme-dark',
             /*scrollTo: true*/
         }
     });
