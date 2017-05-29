@@ -85,7 +85,7 @@ a{
   font-size: 28px;
 }
 
-#languageButton{
+.languageButton{
   position: relative;
   z-index: 4;
   float: right;
@@ -166,5 +166,56 @@ a{
   border-radius: 20px;
   padding: 20px;
   bottom: -480px;
+}
+
+iframe.goog-te-banner-frame{ 
+    display: none !important;
+}
+
+.goog-te-gadget{
+    display: block;
+    margin: auto;
+
+}
+
+div#google_translate_element div.goog-te-gadget-simple{
+        background: transparent;
+        display: block;
+        border-radius: 25px;
+        width: 65%;
+        max-height: 150px;
+        max-width: 330px;
+        padding: 10px;
+        margin: auto;
+        border: 1px solid white;
+        text-align: center;
+        margin-bottom: 10px;
+
+}
+
+div#google_translate_element div.goog-te-gadget-simple a.goog-te-menu-value span{
+    color:#ffffff
+
+}
+
+/* ---Code between these lines was found at http://stackoverflow.com/questions/24281192/how-to-remove-or-hide-powered-by-text-from-google-translate - see blog for more info--- */
+
+.goog-logo-link {
+   display:none !important;
+} 
+
+.goog-te-gadget{
+   color: transparent !important;
+}
+
+.goog-te-gadget-icon{
+  display:none;
+}
+
+/*------------------------------------------------------*/
+
+
+#google_translate_element{
+    display: block;
 
 }

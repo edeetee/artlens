@@ -22,7 +22,7 @@
         <div id="video"></div>
         <canvas id="canvas"></canvas>
         <button id="infoButton" onclick="startTour()">i</button>
-        <button id="languageButton">EN</button>
+        <button id= "google_translate_element" class="languageButton">EN</button>
         <button id="cameraButton">
           <div id="centerButton"></div>
         </button>
@@ -30,6 +30,7 @@
       <button id="backButton" align="right">&#60;</button>
       <div id="title"><h1></h1></div>
     </div>
+<!--  <div id="google_translate_element"></div>-->
     
   
     <script src="/socket.io/socket.io.js"></script>
@@ -63,6 +64,44 @@
     });
     });
   </script>
+  
+  
+  <!--Translate script-->
+  
+  <script type="text/javascript">
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement({pageLanguage: 'en', includedLanguages: 'ar,es,en,fr,ja,mi', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+        }
+    </script>
+    
+    <script type="text/javascript" src="http://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!--styling widget information from: http://stackoverflow.com/questions/11174558/need-help-styling-google-translate-button-->
+    
+    <script type="text/javascript">
+        $('document').ready(function () {
+            $('#google_translate_element').on("click", function () {
+
+                // Change font family and color
+                $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div, .goog-te-menu2 *")
+                    .css({
+                        'color': '#000000',
+        
+
+                    });
+
+                // Change Google's default blue border
+                $("iframe").contents().find('.goog-te-menu2').css('border', '1px solid #ffffff');
+
+                // Change the iframe's box shadow
+                $(".goog-te-menu-frame").css({
+                    '-moz-box-shadow': '0 3px 8px 2px #666666',
+                    '-webkit-box-shadow': '0 3px 8px 2px #666',
+                    'box-shadow': '0 3px 8px 2px #666'
+                });
+            });
+        });
+    </script>
   
 
 
