@@ -2,7 +2,7 @@ var tour;
 
     tour = new Shepherd.Tour({
         defaults: {
-            classes: 'shepherd-theme-arrows',
+            classes: 'shepherd-theme-dark',
             /*scrollTo: true*/
         }
     });
@@ -10,6 +10,9 @@ var tour;
     tour.addStep('Language', { 
         text: 'Choose language',
         attachTo: '#languageButton left',
+        tetherOptions:{ 
+            targetAttachment: 'bottom left',
+        },
         buttons: [
             {
                 text: 'Next',
@@ -64,6 +67,9 @@ var tour;
     tour.addStep('Tutorial', { 
         text: 'Tap again to repeat the tour',
         attachTo: '#infoButton right',
+        tetherOptions:{ 
+            targetAttachment: 'bottom right',
+        },
         buttons: [
              {
                 text: 'Done!',
@@ -75,9 +81,8 @@ var tour;
     });
 
 
-
-
 function startTour() {
     tour.start(); 
 
 }
+
