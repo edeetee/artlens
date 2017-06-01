@@ -9,17 +9,24 @@ iframe.goog-te-banner-frame{
 }
 
 div#google_translate_element div.goog-te-gadget-simple{
-        background: transparent;
         display: block;
-        border-radius: 25px;
-        width: 65%;
-        max-height: 150px;
-        max-width: 330px;
-        padding: 10px;
         margin: auto;
-        border: 1px solid white;
         text-align: center;
-        margin-bottom: 10px;
+	
+	position: relative;
+  z-index: 4;
+  float: right;
+  margin-right: 10px;
+  margin-top: 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  width: 160px;
+  height: 20px;
+	padding: 10px;
+  border: 2px solid rgba(255,255,255,0);
+  border-radius: 40px;
+  background-color: rgba(255,255,255,0.5);
+  filter: blur(5);
 
 }
 
@@ -48,4 +55,18 @@ div#google_translate_element div.goog-te-gadget-simple a.goog-te-menu-value span
 #google_translate_element{
     display: block;
 
+}
+
+.goog-te-gadget-simple{
+	background-color: none !important;
+	border: none !important;
+	padding: none !important;	
+}
+
+.goog-tooltip{
+	display: none !important;
+} 
+
+.goog-te-menu-frame{
+	background-color: rgba(255,255,255,0.5) !important;
 }
