@@ -7,17 +7,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
     <link rel="stylesheet" href="/css/index.css">
-=======
-
     <link rel="stylesheet" href="/css/shepherd-theme-dark.css"> 
-	
-   <link rel="stylesheet" href="css/translate.css">
+    <link rel="stylesheet" href="css/translate.css">
     <link rel="stylesheet" href="/css/index.css"> 
-   
->>>>>>> 5eeabcdae07b4387ac00cfe2107f588aba3f304f
 
 
 
@@ -28,16 +21,11 @@
     <div id="cameraview">
         <div id="video"></div>
         <canvas id="canvas"></canvas>
-<<<<<<< HEAD
-        <div class="blurFrame"></div>
-        <button id="infoButton" onclick="startTour()">i</button>
-        <button id="languageButton">EN</button>
-=======
         <button class="notranslate" id="infoButton" onclick="startTour()">i</button>
+        <button id="languageButton">EN</button>
         <div id= "google_translate_element"></div>
->>>>>>> 5eeabcdae07b4387ac00cfe2107f588aba3f304f
         <button id="cameraButton">
-          <div id="centerButton"></div>
+        <div id="centerButton"></div>
         </button>
         <div id="progress-bar"></div>
       <button id="backButton" align="right">&#60;</button>
@@ -85,6 +73,14 @@
       
       $('#infoButton').on('click', function(){
        $('#video ').addClass('blur');
+    });
+    
+     $('.shepherd-button-secondary').on('click', function(){
+       $('#canvas').removeClass('dim');
+    });
+      
+      $('.shepherd-button-secondary').on('click', function(){
+       $('#video ').removeClass('blur');
     });
   </script>
     

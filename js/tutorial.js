@@ -8,10 +8,11 @@ var tour;
     });
 
     tour.addStep('Language', { 
-        text: 'Choose language',
-        attachTo: '#languageButton left',
+        text: 'Choose your language',
+        attachTo: '.goog-te-gadget-simple bottom',
         tetherOptions:{ 
-            targetAttachment: 'bottom left',
+            targetAttachment: 'bottom center',
+            offset: '0px 20px'
         },
         buttons: [
             {
@@ -22,7 +23,9 @@ var tour;
             }, {
                 text: 'Skip',
                 action: function() {
-                return tour.hide();
+                return tour.hide(),
+                $('#canvas').removeClass('dim'),
+                $('#video ').removeClass('blur');
               }
             }
         ]
@@ -40,7 +43,9 @@ var tour;
             }, {
                 text: 'Skip',
                 action: function() {
-                return tour.hide();
+                return tour.hide(),
+                $('#canvas').removeClass('dim'),
+                $('#video ').removeClass('blur');
               }
             }
         ]
@@ -58,7 +63,9 @@ var tour;
             }, {
                 text: 'Skip',
                 action: function() {
-                return tour.hide();
+                return tour.hide(),
+                $('#canvas').removeClass('dim'),
+                $('#video ').removeClass('blur');
               }
             }
         ]
@@ -74,7 +81,9 @@ var tour;
              {
                 text: 'Done!',
                 action: function() {
-                return tour.complete();
+                return tour.complete(),
+                $('#canvas').removeClass('dim'),
+                $('#video ').removeClass('blur');
               }
             }
         ]
