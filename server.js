@@ -6,6 +6,8 @@ var includedFolders = [
 	'js'
 ]
 
+var quota = 20;
+
 var path = require('path');
 var express = require('express');
 var request = require('ajax-request');
@@ -20,6 +22,7 @@ var requestOptions = {
     url: "http://api.digitalnz.org/v3/records.json",
     json: true,
     data: {
+      // text: "gun",
       api_key: '_Yuwd93tskTvvgWftRLz',
       "and[primary_collection][]": "Te Papa Collections Online",
       // "and[dc_type][]": "Physical Object",
@@ -38,12 +41,11 @@ var requestOptions = {
       ],
       sort: "syndication_date",
       page: 1,
-      per_page: 50,
+      per_page: 20,
       fields: "id,large_thumbnail_url,description"
     }
   };
 
-var quota = 20;
 var finishedRequests = 0;
 var successfulRequests = 0;
 
