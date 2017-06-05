@@ -70,21 +70,19 @@ window.onload = function() {
     }
 
     function closePhoto(){
-//      document.getElementById('title').style.visibility = "hidden";
-//        title.innerText = "";
+
         titleResult.innerHTML = "";
         date.innerHTML = "";
         description.innerHTML = "";
         tp.innerHTML = "";
-    //        button.innerText = "Take Photo"
       
         //make button take photo again
         button.onclick = takePhoto;
         document.getElementById('infoButton').style.visibility = "visible";
         document.getElementById('backButton').style.visibility = "hidden";
         document.getElementById('title').style.visibility = "hidden";
-        document.getElementById('title').style.bottom = "-480px";
-        document.getElementById('title').style.overflow = "hidden";
+        document.getElementById('title').style.bottom = "-440px";
+//        document.getElementById('title').style.overflow = "hidden";
       
       document.getElementById('cameraButton').style.visibility = "visible";
 
