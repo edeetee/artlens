@@ -77,7 +77,6 @@ window.onload = function() {
     });
 
     socket.on('progress', function(progress){
-        console.log('progress: ' + progress*100 + '%');
         progressBar.animate(progress);
     })
 
@@ -92,7 +91,7 @@ window.onload = function() {
             closePhoto();   
         else{
             //set the data
-            title.innerText = data.title;
+            title.innerText = data.record.title;
 
             //make the button close
 //            button.innerText = "Close photo";
