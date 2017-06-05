@@ -169,3 +169,16 @@ a{
   padding: 20px;
   bottom: -480px;
 }
+
+#titleResult{
+  font-size: 22px;
+  font-weight: 900;
+}
+
+#description{
+  text-align: justify;
+}
+
+.resultsInput{
+  padding-bottom: 10px;
+}

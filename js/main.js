@@ -8,6 +8,10 @@ window.onload = function() {
     var camera = document.getElementById('video');
     var info = document.getElementById('infoButton');
     var back = document.getElementById('backButton');
+    var titleResult = document.getElementById('titleResult');
+    var date = document.getElementById('date');
+    var description = document.getElementById('description');
+    var tp = document.getElementById('tp');
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -67,7 +71,11 @@ window.onload = function() {
 
     function closePhoto(){
 //      document.getElementById('title').style.visibility = "hidden";
-        title.innerText = "";
+//        title.innerText = "";
+        titleResult.innerHTML = "";
+        date.innerHTML = "";
+        description.innerHTML = "";
+        tp.innerHTML = "";
     //        button.innerText = "Take Photo"
       
         //make button take photo again
@@ -104,7 +112,11 @@ window.onload = function() {
             closePhoto();   
         else{
             //set the data
-            title.innerText = data.record.title;
+          
+              titleResult.innerHTML = data.record.title;
+              date.innerHTML = data.record.display_date;
+              description.innerHTML = data.record.description;
+              tp.innerHTML = data.record.display_collection;
 
             //make the button close
 //            button.innerText = "Close photo";
