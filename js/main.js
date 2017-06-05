@@ -98,6 +98,7 @@ window.onload = function() {
     });
 
     socket.on('progress', function(progress){
+        console.log(progress);
         progressBar.animate(progress);
     })
 

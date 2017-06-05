@@ -6,13 +6,15 @@ var includedFolders = [
 	'js'
 ]
 
-var quota = 20;
+var quota = 30;
 
 var path = require('path');
 var express = require('express');
 var request = require('ajax-request');
 var wrax = require('./stolen.js');
 var sharp = require('sharp');
+
+var memwatch = require('memwatch-next');
 
 var app = express();
 var server = app.listen(port);
@@ -76,15 +78,11 @@ function requestCallback(err, res, body){
   }
 }
 
-function hasLoaded(){
-
-}
-
 function processedCallback(succeeded){
   finishedRequests++;
-  if(succeeded){
+  if(succeeded)
     successfulRequests++;
-  }
+  
 
   if(finishedRequests == requestOptions.data.per_page*requestOptions.data.page){
     requestOptions.data.page++;
@@ -129,28 +127,29 @@ io.on('connection', function(socket){
     if(started){
       socket.emit('started');
 
-      var data = wrax.match(imageData, function(progress){
+      wrax.match(imageData, function(progress){
         socket.emit('progress', progress);
+      }, function(data){
+        if(data)
+          request({
+            url: 'http://api.digitalnz.org/v3/records/' + data.id + '.json',
+            json: true,
+            data: {
+              api_key: "_Yuwd93tskTvvgWftRLz"
+            }
+          }, function(err, res, body){
+            if(err){
+              console.log(err);
+              socket.emit('finished');
+            } else{
+              data.record = body.record;
+              console.log('MATCH: ' + data.record.title + ' (' + data.id + ')');
+              socket.emit('finished', data);
+            }
+          })
+        else
+          socket.emit('finished', null);
       });
-      if(data)
-        request({
-          url: 'http://api.digitalnz.org/v3/records/' + data.id + '.json',
-          json: true,
-          data: {
-            api_key: "_Yuwd93tskTvvgWftRLz"
-          }
-        }, function(err, res, body){
-          if(err){
-            console.log(err);
-            socket.emit('finished', null);
-          } else{
-            data.record = body.record;
-            console.log('MATCH: ' + data.record.title + ' (' + data.id + ')');
-            socket.emit('finished', data);
-          }
-        })
-      else
-        socket.emit('finished', null);
     }else{
       console.log("loading hasn't finished, emitting 'finished' to client")
       socket.emit('finished');

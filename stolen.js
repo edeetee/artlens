@@ -4,30 +4,28 @@ module.exports = {
 }
 
 var fs = require('fs');
+var path = require('path');
 var PNG = require('pngjs').PNG;
 var jsfeat = require('jsfeat');
 
-fs.mkdir('images', null, nothing);
-fs.mkdir('tempimages', null, nothing);
+var folders = ['tempimages', 'images', 'patterns'];
 
-fs.readdir('tempimages', function(err, files){
-    files.forEach(function(file, i){
-        fs.unlink("tempimages/" + file, nothing);
+folders.forEach(function(folder){
+    fs.mkdir(folder, null, nothing);
+    fs.readdir(folder, function(err, files){
+        if(files)
+            files.forEach(function(file, i){
+                fs.unlink(path.join(folder, file), nothing);
+            });
     });
-});
-
-fs.readdir('images', function(err, files){
-    files.forEach(function(file, i){
-        fs.unlink("images/" + file, nothing);
-    });
-});
+})
 
 function nothing(){
 
 }
 
 var ctx;
-var img_u8, img_u8_smooth, screen_corners, num_corners, screen_descriptors;
+var img_u8, screen_corners, num_corners, screen_descriptors;
 
 var pattern_preview;
 
@@ -114,15 +112,9 @@ var match_t = (function () {
     return match_t;
 })();
 
-var patterns_corners = [];
-var patterns_descriptors = [];
-var ids = [];
-
 //init
 function demo_app(loadedCallback) {
     img_u8 = new jsfeat.matrix_t(640, 480, jsfeat.U8_t | jsfeat.C1_t);
-    // after blur
-    img_u8_smooth = new jsfeat.matrix_t(640, 480, jsfeat.U8_t | jsfeat.C1_t);
     // we wll limit to 500 strongest points
     screen_descriptors = new jsfeat.matrix_t(32, 500, jsfeat.U8_t | jsfeat.C1_t);
     screen_corners = [];
@@ -138,20 +130,24 @@ function demo_app(loadedCallback) {
     var logcount = 0;
     fs.readdir('images', function(err, files){
         files.forEach(function(file, i){
-            ids[i] = file.slice(0, -4)
+            var id = file.slice(0, -4)
             var img = "images/" + file;
             fs.createReadStream(img)
             .pipe(new PNG())
             .on('parsed', function() {
                 logcount++;
                 var pattern_corners = [];
-                var pattern_descriptors = [];1
+                var pattern_descriptors = [];
                 jsfeat.imgproc.grayscale(this.data, 640, 480, img_u8);
                 train_pattern(pattern_corners, pattern_descriptors);
-                patterns_corners[i] = pattern_corners;
-                patterns_descriptors[i] = pattern_descriptors;
+                fs.writeFileSync(path.join('patterns', id + '.json'), JSON.stringify({
+                    corners: pattern_corners,
+                    descriptors: pattern_descriptors
+                }));
 
-                if(logcount == ids.length && loadedCallback)
+                console.log(logcount);
+
+                if(logcount == files.length && loadedCallback)
                     loadedCallback(logcount);
             });
         })
@@ -159,44 +155,52 @@ function demo_app(loadedCallback) {
 }
 
 //imageData = ctx.getImageData(0, 0, 640, 480);
-function findMatch(data, progressCallback) {
+function findMatch(data, progressCallback, finishedCallback) {
     jsfeat.imgproc.grayscale(data, 640, 480, img_u8);
-    jsfeat.imgproc.gaussian_blur(img_u8, img_u8_smooth, blur_size);
 
     //new image description
-    num_corners = detect_keypoints(img_u8_smooth, screen_corners, 500);
-    jsfeat.orb.describe(img_u8_smooth, screen_corners, num_corners, screen_descriptors);
+    num_corners = detect_keypoints(img_u8, screen_corners, 500);
+    jsfeat.orb.describe(img_u8, screen_corners, num_corners, screen_descriptors);
     
     //min %
     var best_matchp = 0;
-    var best_matchi = null;
+    var best_matchid = null;
     var best_matches_render;
     var best_box_render;
+    var count = 0;
     
-    //matching
-    for(var i = 0; i<ids.length; i++){
-        var num_matches = 0;
-        var good_matches = 0;
+    fs.readdirSync('patterns').forEach(function(file, i, files){
+        var id = file.slice(0, -5);
+        fs.readFile(path.join('patterns', file), function(err, json){
+            var data = JSON.parse(json);
 
-        num_matches = match_pattern(patterns_descriptors[i]);
-        good_matches = find_transform(matches, num_matches, patterns_corners[i]);
+            var num_matches = 0;
+            var good_matches = 0;
 
-        var matchp = good_matches/num_corners;
-        if(best_matchp < matchp){
-            console.log(good_matches + " " + num_matches + '\t' + Math.round(matchp*100) + "%\t" + ids[i]);
-            best_matchp = matchp;
-            best_matchi = i;
-            best_matches_render = render_matches_list(matches, num_matches);
-            best_box_render = tCorners(homo3x3.data, 640, 480);
-        }
-        progressCallback((i+1)/ids.length);
-    }
+            num_matches = match_pattern(data.descriptors);
+            good_matches = find_transform(matches, num_matches, data.corners);
 
-    //found matches
-    if(0.03 < best_matchp) {
-        return {points: best_matches_render, box: best_box_render, id: ids[best_matchi], matchp: Math.round(best_matchp*100)};
-    } else
-        console.log('no match\n');
+            var matchp = good_matches/num_corners;
+            if(best_matchp < matchp){
+                console.log(good_matches + " " + num_matches + '\t' + Math.round(matchp*100) + "%\t" + id);
+                best_matchp = matchp;
+                best_matchid = id;
+                best_matches_render = render_matches_list(matches, num_matches);
+                best_box_render = tCorners(homo3x3.data, 640, 480);
+            }
+
+            //async counter
+            count++;
+            progressCallback((count+1)/files.length);
+            if(count+1 == files.length){
+                //found matches
+                if(0.03 < best_matchp) {
+                    finishedCallback({points: best_matches_render, box: best_box_render, id: best_matchid, matchp: Math.round(best_matchp*100)});
+                } else
+                    finishedCallback();
+            }
+        });
+    });
 }
 
 
