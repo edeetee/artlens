@@ -20,9 +20,7 @@ folders.forEach(function(folder){
     });
 })
 
-function nothing(){
-
-}
+function nothing(){}
 
 var ctx;
 var img_u8, screen_corners, num_corners, screen_descriptors;
@@ -167,40 +165,41 @@ function findMatch(data, progressCallback, finishedCallback) {
     var best_matchid = null;
     var best_matches_render;
     var best_box_render;
-    var count = 0;
+    var i = 0;
     
-    fs.readdirSync('patterns').forEach(function(file, i, files){
-        var id = file.slice(0, -5);
-        fs.readFile(path.join('patterns', file), function(err, json){
-            var data = JSON.parse(json);
+    var patterns = fs.readdirSync('patterns');
 
-            var num_matches = 0;
-            var good_matches = 0;
+    (function readPattern(){
+        var pattern = patterns[i];
+        var id = pattern.slice(0, -5);
+        var data = JSON.parse(fs.readFileSync(path.join('patterns', pattern)));
 
-            num_matches = match_pattern(data.descriptors);
-            good_matches = find_transform(matches, num_matches, data.corners);
+        var num_matches = 0;
+        var good_matches = 0;
 
-            var matchp = good_matches/num_corners;
-            if(best_matchp < matchp){
-                console.log(good_matches + " " + num_matches + '\t' + Math.round(matchp*100) + "%\t" + id);
-                best_matchp = matchp;
-                best_matchid = id;
-                best_matches_render = render_matches_list(matches, num_matches);
-                best_box_render = tCorners(homo3x3.data, 640, 480);
-            }
+        num_matches = match_pattern(data.descriptors);
+        good_matches = find_transform(matches, num_matches, data.corners);
 
-            //async counter
-            count++;
-            progressCallback((count+1)/files.length);
-            if(count+1 == files.length){
-                //found matches
-                if(0.03 < best_matchp) {
-                    finishedCallback({points: best_matches_render, box: best_box_render, id: best_matchid, matchp: Math.round(best_matchp*100)});
-                } else
-                    finishedCallback();
-            }
-        });
-    });
+        var matchp = good_matches/num_corners;
+        if(best_matchp < matchp){
+            console.log(good_matches + " " + num_matches + '\t' + Math.round(matchp*100) + "%\t" + id);
+            best_matchp = matchp;
+            best_matchid = id;
+            best_matches_render = render_matches_list(matches, num_matches);
+            best_box_render = tCorners(homo3x3.data, 640, 480);
+        }
+
+        //async counter
+        i++;
+        if(i == patterns.length){
+            //found matches
+            if(0.03 < best_matchp) {
+                finishedCallback({points: best_matches_render, box: best_box_render, id: best_matchid, matchp: Math.round(best_matchp*100)});
+            } else
+                finishedCallback();
+        } else
+            progressCallback(i/patterns.length, readPattern);
+    })();
 }
 
 

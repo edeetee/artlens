@@ -125,8 +125,8 @@ io.on('connection', function(socket){
     if(started){
       socket.emit('started');
 
-      wrax.match(imageData, function(progress){
-        socket.emit('progress', progress);
+      wrax.match(imageData, function(progress, callback){
+        socket.emit('progress', progress, callback);
       }, function(data){
         if(data)
           request({
