@@ -4,7 +4,6 @@ var port = process.env.PORT||80;
 var includedFolders = [
 	'css',
 	'js'
-
 ]
 
 var path = require('path');
