@@ -14,8 +14,6 @@ var request = require('ajax-request');
 var wrax = require('./stolen.js');
 var sharp = require('sharp');
 
-var memwatch = require('memwatch-next');
-
 var app = express();
 var server = app.listen(port);
 var io = require('socket.io').listen(server);
