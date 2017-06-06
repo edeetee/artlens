@@ -164,14 +164,10 @@ a{
   filter: blur(5);
   width: 100%;
   margin: 0 5%;
-  border-radius: 20px;
-/*  padding: 20px;*/
   bottom: -440px;
 }
 
 #noData{
-/*  visibility: hidden;*/
-/*  opacity: 0;*/
   display: none;
   position: absolute;
   z-index: 4;
@@ -206,6 +202,7 @@ a{
   border-radius: 30px 30px 0px 0px;
   overflow: scroll;
 }
+
 #description{
   text-align: justify;
 }
