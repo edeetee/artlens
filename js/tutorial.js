@@ -21,7 +21,7 @@ var tour;
 
                 
             }, {
-                text: 'Skip',
+                text: 'Exit',
                 action: function() {
                 return tour.hide(),
                 $('#canvas').removeClass('dim'),
@@ -41,7 +41,7 @@ var tour;
 
                 
             }, {
-                text: 'Skip',
+                text: 'Exit',
                 action: function() {
                 return tour.hide(),
                 $('#canvas').removeClass('dim'),
@@ -51,25 +51,6 @@ var tour;
         ]
     });
 
-    tour.addStep('Info', { 
-        text: 'Drag up to view the details',
-        attachTo: '#title top',
-        buttons: [
-            {
-                text: 'Next',
-                action: tour.next,
-
-                
-            }, {
-                text: 'Skip',
-                action: function() {
-                return tour.hide(),
-                $('#canvas').removeClass('dim'),
-                $('#video ').removeClass('blur');
-              }
-            }
-        ]
-    });
 
     tour.addStep('Tutorial', { 
         text: 'Tap again to repeat the tour',
