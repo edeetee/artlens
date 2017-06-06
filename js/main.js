@@ -38,7 +38,7 @@ window.onload = function() {
     Webcam.attach( '#video' );
   
     document.getElementById('backButton').style.visibility = "hidden";
-  document.getElementById('title').style.visibility = "hidden";
+    document.getElementById('title').style.visibility = "hidden";
   
     
     button.onclick = takePhoto;
@@ -109,10 +109,12 @@ window.onload = function() {
 
         progressBar.destroy();
 
-        if(!data)
+        if(!data){
+            //no match tutorial
             closePhoto();   
+        }
         else{
-          document.getElementById('title').style.visibility = "visible";
+            document.getElementById('title').style.visibility = "visible";
             //set the data
           
               titleResult.innerHTML = data.record.title;
@@ -121,7 +123,7 @@ window.onload = function() {
               tp.innerHTML = data.record.display_collection;
 
             //make the button close
-//            button.innerText = "Close photo";
+            //button.innerText = "Close photo";
             document.getElementById('backButton').style.visibility = "visible";
             document.getElementById('infoButton').style.visibility = "hidden";
           
