@@ -8,7 +8,10 @@ var includedFolders = [
 
 var quota = 30;
 
+var doGenerate = false;
+
 var path = require('path');
+var fs = require('fs');
 var express = require('express');
 var request = require('ajax-request');
 var wrax = require('./stolen.js');
@@ -18,8 +21,26 @@ var app = express();
 var server = app.listen(port);
 var io = require('socket.io').listen(server);
 
+var started = false;
+
+var folders = ['tempimages', 'images', 'patterns'];
+
+folders.forEach(function(folder){
+    fs.mkdir(folder, null, nothing);
+    if(doGenerate)
+        fs.readdir(folder, function(err, files){
+            if(files)
+                files.forEach(function(file, i){
+                    fs.unlink(path.join(folder, file), nothing);
+                });
+        });
+})
+
+function nothing(){}
+
+
 var requestOptions = {
-    url: "api.digitalnz.org/v3/records.json",
+    url: "http://api.digitalnz.org/v3/records.json",
     json: true,
     data: {
       // text: "gun",
@@ -49,7 +70,13 @@ var requestOptions = {
 var finishedRequests = 0;
 var successfulRequests = 0;
 
-request(requestOptions, requestCallback);
+if(doGenerate)
+  request(requestOptions, requestCallback);
+else{
+  console.log('WARNING: Started with doGenerate: false, not generating new files');
+  console.log('READY');
+  started = true;
+}
 
 function requestCallback(err, res, body){
   //increment page counter
@@ -116,7 +143,6 @@ server.once('listening', function(){
 
 
 //request stuff
-var started = false;
 //receive photo
 io.on('connection', function(socket){
   console.log('a user connected');

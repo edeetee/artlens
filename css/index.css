@@ -138,9 +138,8 @@ a{
 #progress-bar{
   z-index: 1;
   position: absolute;
-  width: 20vw;
-  height: 20vw;
-
+  width: 150px;
+  height: 150px;
   left: -9999px;
   right: -9999px;
   top: -9999px;

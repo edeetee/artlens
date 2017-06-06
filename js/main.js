@@ -57,7 +57,7 @@ window.onload = function() {
             socket.emit('processImage', imageData.data);
             Webcam.freeze();
             progressBar = new ProgressBar.Circle('#progress-bar', {
-                strokeWidth: 10,
+                strokeWidth: 8,
                 easing: 'easeInOut',
                 color: 'white',
                 duration: 500,
@@ -99,7 +99,6 @@ window.onload = function() {
 
     socket.on('progress', function(progress, fn){
         fn();
-        console.log(progress);
         progressBar.animate(progress);
     })
 
@@ -151,17 +150,47 @@ window.onload = function() {
 
             //draw the matched points
             if(data.points){
+                ctx.fillStyle = "rgba(255,255,255,1)";
                 data.points.forEach(function(val){
-                    if(val.correct) {
-                        ctx.fillStyle = "white";
-                    } else {
-                        ctx.fillStyle = "red";
-                    }
-                    ctx.fillRect(val.x-1,val.y-1,3,3);
-                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.arc(val.x, val.y, 2, 0, 2 * Math.PI, false);
+                    ctx.fill();
                 })
+
+                drawPoints(data.points, ctx);
             }
             ctx.setTransform(1, 0, 0, 1, 0, 0);
         }
     })
+}
+
+function drawPoints(points, ctx){
+    ctx.strokeStyle = "rgba(255,255,255,0.4)";
+
+    for (var i=0; i<points.length; i++){
+        var point = points[i];
+
+        var randoms = [];
+        var iters = 0;
+        while(iters < 5){
+            var index = Math.floor(Math.random()*points.length);
+            if(randoms.indexOf(index) == -1 && dist(point, points[index]) < 200)
+                randoms.push(index);
+            
+            iters++;
+        }
+
+        ctx.beginPath();
+        ctx.lineWidth=1;
+
+        randoms.forEach(function(val){
+            ctx.moveTo(point.x, point.y);
+            ctx.lineTo(points[val].x, points[val].y);
+        })
+        ctx.stroke();
+    }
+}
+    
+function dist(p1, p2){
+    return Math.sqrt(Math.pow(p2.x-p1.x, 2) + Math.pow(p2.y-p1.y, 2));
 }
