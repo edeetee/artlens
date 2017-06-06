@@ -24,6 +24,7 @@
         <button class="notranslate" id="infoButton" onclick="startTour()">i</button>
 <!--        <button id="languageButton">EN</button>-->
         <div id= "google_translate_element"></div>
+      <div id="noData"><p>No Match</p></div>
         <button id="cameraButton">
         <div id="centerButton"></div>
         </button>
@@ -57,14 +58,39 @@
 
   
   <script>
-    $('#title').click(function() {   
-    $(this).animate({bottom: "40px"}, 2200);
-      $(this).css('overflow', 'scroll')
+//    $('#title').click(function() {   
+//    $(this).animate({bottom: "0px"}, 2200);
+////      $(this).css('overflow', 'scroll')
+//      $('#video').css({
+//        'filter': 'blur(5px)',
+//        'transition':'all 0.9s ease-out',
+//    });
+//});
+    
+    
+    $(document).ready(function() {
+   var sideMenu = false;
+    $("#title").click(function() {
+      if (!sideMenu) {
+        $("#title").animate({bottom: "0px"}, 2200);
       $('#video').css({
         'filter': 'blur(5px)',
         'transition':'all 0.9s ease-out',
     });
+        sideMenu = true;
+      }
+      else {
+        $("#title").animate({bottom: "-440px"}, 2200);
+      $('#video').css({
+        'filter': 'blur(0px)',
+        'transition':'all 0.9s ease-out',
+    });
+        sideMenu = false;     
+      }
+    });
 });
+
+
     
     $("#backButton").click(function(){
       $('#video').css({

@@ -70,6 +70,7 @@ window.onload = function() {
       
     }
 
+
     function closePhoto(){
 
         titleResult.innerHTML = "";
@@ -110,8 +111,11 @@ window.onload = function() {
         progressBar.destroy();
 
         if(!data){
-            //no match tutorial
+          
             closePhoto();   
+
+          $('#noData').fadeIn("slow", function() { $(this).delay(1500).fadeOut("slow"); });
+          
         }
         else{
             document.getElementById('title').style.visibility = "visible";
