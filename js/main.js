@@ -8,6 +8,7 @@ window.onload = function() {
     var camera = document.getElementById('video');
     var info = document.getElementById('infoButton');
     var back = document.getElementById('backButton');
+  
     var titleResult = document.getElementById('titleResult');
     var date = document.getElementById('date');
     var description = document.getElementById('description');
@@ -66,7 +67,7 @@ window.onload = function() {
                 }
             });
         });
-      document.getElementById('title').style.visibility = "visible";
+      
     }
 
     function closePhoto(){
@@ -109,6 +110,7 @@ window.onload = function() {
         if(!data)
             closePhoto();   
         else{
+          document.getElementById('title').style.visibility = "visible";
             //set the data
           
               titleResult.innerHTML = data.record.title;
