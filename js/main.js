@@ -96,7 +96,9 @@ window.onload = function() {
         progressBar.setText('Processing')
     });
 
-    socket.on('progress', function(progress){
+    socket.on('progress', function(progress, fn){
+        fn();
+        console.log(progress);
         progressBar.animate(progress);
     })
 
