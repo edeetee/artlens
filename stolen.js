@@ -138,7 +138,7 @@ function demo_app(loadedCallback) {
     })
 }
 
-var preloads = 5;
+var preloads = 3;
 
 //imageData = ctx.getImageData(0, 0, 640, 480);
 function findMatch(data, progressCallback, finishedCallback) {
