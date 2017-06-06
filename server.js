@@ -19,7 +19,7 @@ var server = app.listen(port);
 var io = require('socket.io').listen(server);
 
 var requestOptions = {
-    url: "http://api.digitalnz.org/v3/records.json",
+    url: "api.digitalnz.org/v3/records.json",
     json: true,
     data: {
       // text: "gun",
