@@ -164,12 +164,12 @@ var firstTour;
 
 
 function startfirstTour(){
-        /*if (!localStorage.getItem('viewed')){*/
+        if (!localStorage.getItem('viewed')){
            firstTour.start();
             $('#video ').addClass('blur'),
             $('#canvas').addClass('dim');
-           /*localStorage.setItem('viewed','yes');
-    }*/
+           localStorage.setItem('viewed','yes');
+    }
     
 }
 
