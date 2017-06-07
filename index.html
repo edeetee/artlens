@@ -23,7 +23,7 @@
         <canvas id="canvas"></canvas>
         <button class="notranslate" id="infoButton" onclick="startTour()">i</button>
 <!--        <button id="languageButton">EN</button>-->
-        <div id= "google_translate_element"></div>
+        <div id="google_translate_element"></div>
       <div id="noData"><p>No Match</p></div>
         <button id="cameraButton">
         <div id="centerButton"></div>
@@ -50,7 +50,6 @@
     
     <script src="/js/tether.js"></script>
     <script src="/js/shepherd.min.js"></script>
-    <script src="js/tutorial.js"></script>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -108,10 +107,12 @@
       $('.shepherd-button-secondary').on('click', function(){
        $('#video ').removeClass('blur');
     });
+    
+    
   </script>
     
     
-  
+
   
   <!--Translate script-->
   
@@ -151,6 +152,7 @@
         });
     </script>
   
+<script src="/js/tutorial.js"  onload="startfirstTour()"></script>
 
 
 </body>
