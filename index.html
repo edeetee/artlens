@@ -24,7 +24,7 @@
         <button class="notranslate" id="infoButton" onclick="startTour()">i</button>
 <!--        <button id="languageButton">EN</button>-->
         <div id="google_translate_element"></div>
-      <div id="noData"><p>No Match</p></div>
+        <div id="noData"><p>No Match</p></div>
         <button id="cameraButton">
         <div id="centerButton"></div>
         </button>
@@ -54,13 +54,14 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-  
+    
   <script>
 
     
     
     $(document).ready(function() {
    var info = false;
+        
     $("#title").click(function() {
       if (!info) {
         $("#title").animate({bottom: "0px"}, 2200);
@@ -68,7 +69,9 @@
         'filter': 'blur(5px)',
         'transition':'all 0.9s ease-out',
     });
+          
         info = true;
+        
       }
       else {
         $("#title").animate({bottom: "-440px"}, 2200);
@@ -76,11 +79,11 @@
         'filter': 'blur(0px)',
         'transition':'all 0.9s ease-out',
     });
-        info = false;    
+        info = false; 
+
       }
     });
 });
-
 
     
     $("#backButton").click(function(){
@@ -91,7 +94,6 @@
     });
       
       
-
     $('#infoButton').on('click', function(){
        $('#canvas').addClass('dim');
     });
@@ -106,14 +108,11 @@
       
       $('.shepherd-button-secondary').on('click', function(){
        $('#video ').removeClass('blur');
-    });
-    
+    }); 
+
     
   </script>
     
-    
-
-  
   <!--Translate script-->
   
   <script type="text/javascript">
@@ -151,6 +150,7 @@
             });
         });
     </script>
+    
   
 <script src="/js/tutorial.js"  onload="startfirstTour()"></script>
 
