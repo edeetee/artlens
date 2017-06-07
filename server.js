@@ -8,7 +8,11 @@ var includedFolders = [
 
 var quota = 30;
 
+<<<<<<< HEAD
+var doGenerate = false || process.env.HEROKU;
+=======
 var doGenerate = process.env.HEROKU || false;
+>>>>>>> 9a04958c2b5e027b3466ac169fdf92a215ca58d3
 
 var path = require('path');
 var fs = require('fs');

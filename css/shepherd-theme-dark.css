@@ -145,9 +145,9 @@
   max-width: 24em;
   font-size: 1em; }
   .shepherd-element.shepherd-theme-dark.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-dark.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-dark.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
-    border-bottom-color: #303030; }
+    border-bottom-color: #ffffff; }
   .shepherd-element.shepherd-theme-dark.shepherd-has-title .shepherd-content header {
-    background: #303030;
+    background: #ffffff;
     padding: 1em; }
     .shepherd-element.shepherd-theme-dark.shepherd-has-title .shepherd-content header a.shepherd-cancel-link {
       padding: 0;
@@ -166,10 +166,19 @@
         content: "";
         display: table;
         clear: both; }
+
       .shepherd-element.shepherd-theme-dark .shepherd-content header h3 {
         margin: 0;
         line-height: 1;
-        font-weight: normal; }
+        font-weight: normal;
+        color: #000000;
+        text-align: center;
+        font-family: 'Raleway';
+        font-size: 1.8em;
+        padding-bottom: 2%;
+
+}
+
       .shepherd-element.shepherd-theme-dark .shepherd-content header a.shepherd-cancel-link {
         float: right;
         text-decoration: none;
@@ -187,9 +196,10 @@
 /*---------------------Title------------*/
     .shepherd-element.shepherd-theme-dark .shepherd-content .shepherd-text {
         padding: 1em;
-        color: #878787;
+        color: #000000;
         font-family: 'Open Sans', sans-serif;
         font-size: 0.9em;
+        text-align: center;
 }
 
       .shepherd-element.shepherd-theme-dark .shepherd-content .shepherd-text p {
@@ -219,6 +229,7 @@
             cursor: pointer;
             border: 1px solid;
             margin: 0 .5em 0 0;
+            text-align: center;
             font-family: 'Open Sans', sans-serif;
             text-transform: uppercase;
             letter-spacing: .1em;
@@ -228,7 +239,7 @@
             background: none;
             border-color: #000000;
             color: #000000;
-        
+              
 }
             .shepherd-element.shepherd-theme-dark .shepherd-content footer .shepherd-buttons li .shepherd-button.shepherd-button-secondary {
               background: #888888;
