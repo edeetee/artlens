@@ -201,8 +201,10 @@ function findMatch(data, progressCallback, finishedCallback) {
         var num_matches = match_pattern(data.descriptors);
         var good_matches = find_transform(matches, num_matches, data.corners);
 
-        if(6 < good_matches || 15 < num_matches){
-            console.log('num_matches: ' + max_num_matches +  ', good_matches: ' + max_good_matches);
+        if(10 < good_matches || 20 < num_matches){
+            console.log('max_num_matches: ' + max_num_matches +  ', max_good_matches: ' + max_good_matches);
+            console.log('num_matches: ' + num_matches +  ', good_matches: ' + good_matches);
+            
             finishedCallback({points: render_matches_list(matches, num_matches), id: id});
         } else {
             //get a printout of the nearest values to output
