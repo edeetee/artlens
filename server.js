@@ -8,7 +8,11 @@ var includedFolders = [
 
 var quota = 30;
 
-var doGenerate = true || process.env.HEROKU;
+<<<<<<< HEAD
+var doGenerate = false || process.env.HEROKU;
+=======
+var doGenerate = process.env.HEROKU || false;
+>>>>>>> 9a04958c2b5e027b3466ac169fdf92a215ca58d3
 
 var path = require('path');
 var fs = require('fs');
@@ -26,7 +30,9 @@ var started = false;
 var folders = ['tempimages', 'images', 'patterns'];
 
 folders.forEach(function(folder){
-    fs.mkdir(folder, null, nothing);
+    try{
+      fs.mkdirSync(folder, null, nothing);
+    } catch(err){}
     if(doGenerate)
         fs.readdir(folder, function(err, files){
             if(files)
@@ -70,7 +76,7 @@ var requestOptions = {
 var finishedRequests = 0;
 var successfulRequests = 0;
 
-if(doGenerate)
+if(doGenerate || fs.readdirSync('patterns').length == 0)
   request(requestOptions, requestCallback);
 else{
   console.log('WARNING: Started with doGenerate: false, not generating new files');
