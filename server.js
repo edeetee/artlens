@@ -26,7 +26,9 @@ var started = false;
 var folders = ['tempimages', 'images', 'patterns'];
 
 folders.forEach(function(folder){
-    fs.mkdirSync(folder, null, nothing);
+    try{
+      fs.mkdirSync(folder, null, nothing);
+    } catch(err){}
     if(doGenerate)
         fs.readdir(folder, function(err, files){
             if(files)
